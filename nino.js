@@ -354,32 +354,6 @@ module.exports = nino = async (nino, mek) => {
             }
         }
         
-       // Nhentai
-        if (!isGroup && budy.match(/^[0-9]/)) {
-	try {
-		res = await axios.get("http://lolhuman.herokuapp.com/api/nhentai/" + budy + "?apikey=genbotkey")
-		data = res.data.result
-		caption = `${data.title_romaji}\n`
-		caption += `${data.title_native}\n`
-		caption += `Language : ${data.info.languages}\n`
-		caption += `Artists : ${data.info.artists}\n`
-		caption += `Tag : ${data.info.tags.join(", ")}\n`
-		caption += `Category : ${data.info.categories}\n`
-		caption += `Pages : ${data.info.pages}\n`
-		buttons = [{buttonId: `${prefix}buttons5 ${budy}`,buttonText:{displayText: `Download PDF`},type:1},{buttonId:`${prefix}buttons6 ${budy}`,buttonText:{displayText:'Read Online'},type:1}]
-        fs.writeFileSync(`./${sender}.jpeg`, await getBuffer(data.image[0]))
-        imageMsg = ( await nino.prepareMessage(from, fs.readFileSync(`./${sender}.jpeg`), 'imageMessage', {thumbnail: Buffer.alloc(0)})).message.imageMessage
-        buttonsMessage = {footerText:'Jangan Lupa Donasi Ya Kak ☕', imageMessage: imageMsg,
-        contentText:`${caption}`,buttons,headerType:4}
-        prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
-        nino.relayWAMessage(prep)
-        fs.unlinkSync(`./${sender}.jpeg`)
-	} catch (e) {
-		console.log(color(e))
-		reply('No Dōjinshi found')
-	}
-}
-
        
          // CMD
         if (isCmd && !isGroup)
@@ -438,7 +412,7 @@ module.exports = nino = async (nino, mek) => {
 *GROUP*
 ~> \`\`\`kickall, hidetag, welcome, culik\`\`\``
 
-               buttons = [{buttonId:`${prefix}ping`,buttonText:{displayText:'PING'},type:1},{buttonId:`${prefix}nhentai`,buttonText:{displayText:'NHENTAI'},type:1}]
+               buttons = [{buttonId:`${prefix}ping`,buttonText:{displayText:'PING'},type:1},{buttonId:`${prefix}nhentaibot`,buttonText:{displayText:'NHENTAI BOT'},type:1}]
 
                buttonsMessage = {
                contentText: `${menu}`,
@@ -602,23 +576,6 @@ module.exports = nino = async (nino, mek) => {
              data = await getBuffer(`https://api.lolhuman.xyz/api/tiktokmusic?apikey=${setting.lolkey}&url=${args[0]}`)
              nino.sendMessage(from, data, audio, { quoted: mek })
              break
-      case 'buttons5':
-             if (isGroup) return reply(`Fitur Ini Hanya Bisa Gunakan di private saja!`)
-             if (!q) return 
-             reply(`Sending document...`)
-             get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentai/${q}?apikey=${setting.lolkey}`)
-             ini_image = await getBuffer(get_result.result.image[0])
-             data = await fetchJson(`https://api.lolhuman.xyz/api/nhentaipdf/${q}?apikey=${setting.lolkey}`)
-             pdf = await getBuffer(data.result)
-             nino.sendMessage(from, pdf, document, { quoted: mek, mimetype: Mimetype.pdf, filename: `${get_result.result.title_romaji}.pdf`, thumbnail: ini_image })
-             break
-      case 'buttons6':
-             if (isGroup) return reply(`Fitur Ini Hanya Bisa Gunakan di private saja!`)
-             if (!q) return 
-             data = await fetchJson(`https://api.lolhuman.xyz/api/nhentai/${q}?apikey=${setting.lolkey}`)
-             teks = `Baca Disini Gan ${data.result.read}`
-             reply(teks)
-             break
       case 'google':
               if (!q) return reply(mess.wrongFormat)
               ss = await getBuffer(`https://api.apiflash.com/v1/urltoimage?access_key=f3fce33fa6804c0b97c897b3bd2ec7a8&url=https://google.com/search?q=${q}`)
@@ -679,26 +636,6 @@ _*Tunggu Proses Upload Media......*_`
              res = await yts(teks)
              reply(res.all[0].description)
              break
-       case 'nhentai':
-             if (isGroup) return reply(`Fitur Ini Hanya Bisa Gunakan di private saja!`)
-             reply(`Selamat datang!\n\nSilahkan kirimkan kode nuklir di chat, kalo belum ada kode silahkan cari ${prefix}nhentaisearch`)
-             break
-      case 'nhentaisearch':
-             if (args.length == 0) return reply(`Example: ${prefix + command} Gotoubun No Hanayome`)
-             get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentaisearch?apikey=${setting.lolkey}&query=${q}`)
-             get_result = get_result.result
-             ini_txt = "Result : \n"
-             for (var x of get_result) {
-             ini_txt += `Id : ${x.id}\n`
-             ini_txt += `Title English : ${x.title_english}\n`
-             ini_txt += `Title Japanese : ${x.title_japanese}\n`
-             ini_txt += `Native : ${x.title_native}\n`
-             ini_txt += `Upload : ${x.date_upload}\n`
-             ini_txt += `Page : ${x.page}\n`
-             ini_txt += `Favourite : ${x.favourite}\n\n`
-  }
-             reply(ini_txt)
-             break
     case 'chara':
             if(!q) return reply(`gambar apa?\n${prefix}chara nino`)
             let im = await hx.chara(q)
@@ -715,7 +652,7 @@ _*Tunggu Proses Upload Media......*_`
               let wipu = (await axios.get(`https://raw.githubusercontent.com/Arya-was/endak-tau/main/${command}.json`)).data
               let wipi = wipu[Math.floor(Math.random() * (wipu.length))]
               fs.writeFileSync(`./${sender}.jpeg`, await getBuffer(wipi))
-		      buttons = [{buttonId: `${prefix + command}`,buttonText:{displayText: `➡️Next`},type:1},{buttonId:`${prefix}nhentai`,buttonText:{displayText:'NHENTAI'},type:1}]
+		      buttons = [{buttonId: `${prefix + command}`,buttonText:{displayText: `➡️Next`},type:1},{buttonId:`${prefix}nhentaibot`,buttonText:{displayText:'NHENTAI BOT'},type:1}]
               imageMsg = ( await nino.prepareMessage(from, fs.readFileSync(`./${sender}.jpeg`), 'imageMessage', {thumbnail: Buffer.alloc(0)})).message.imageMessage
               buttonsMessage = {footerText:'Jangan Lupa Donasi Ya Kak ☕', imageMessage: imageMsg,
               contentText:`klik Next untuk ke gambar selanjut nya`,buttons,headerType:4}
@@ -1076,6 +1013,9 @@ a += `
               } else {
               reply('Enable untuk mengaktifkan, disable untuk menonaktifkan')
 }
+              break
+       case 'nhentaibot':
+              reply(`Klik Nomor Di Bawah\n http://wa.me/+62812788952860 \n Lalu ketik /start`)
               break
        case 'infoig':
               teks = `Jangan Lupa Follow Ig Owner Ya : https://www.instagram.com/nino.chan26/`
