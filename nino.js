@@ -684,7 +684,7 @@ _*Tunggu Proses Upload Media......*_`
              break
        case 'nhentai':
              if (isGroup) return reply(`Fitur Ini Hanya Bisa Gunakan di private saja!`)
-             reply(`reply(`Selamat datang!\n\nSilahkan kirimkan kode nuklir di chat, kalo belum ada kode silahkan cari ${prefix}nhentaisearch`)`)
+             reply(`Selamat datang!\n\nSilahkan kirimkan kode nuklir di chat, kalo belum ada kode silahkan cari ${prefix}nhentaisearch`)
              break
       case 'nhentaisearch':
              if (args.length == 0) return reply(`Example: ${prefix + command} Gotoubun No Hanayome`)
