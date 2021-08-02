@@ -12,7 +12,7 @@
   },
   "author": "nino",
   "dependencies": {
-    "@adiwajshing/baileys": "^3.4.1",
+    "@adiwajshing/baileys": "github:adiwajshing/baileys",
     "axios": "^0.21.1",
     "chalk": "^4.1.1",
     "figlet": "^1.5.0",
