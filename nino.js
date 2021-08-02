@@ -354,10 +354,13 @@ module.exports = nino = async (nino, mek) => {
             }
         }
         
+        
+        
        // Nhentai
         if (!isGroup && budy.match(/^[0-9]/)) {
 	try {
 		res = await axios.get("http://lolhuman.herokuapp.com/api/nhentai/" + budy + "?apikey=genbotkey")
+		reply("Please wait, data is being processed");
 		data = res.data.result
 		caption = `${data.title_romaji}\n`
 		caption += `${data.title_native}\n`
@@ -681,7 +684,7 @@ _*Tunggu Proses Upload Media......*_`
              break
        case 'nhentai':
              if (isGroup) return reply(`Fitur Ini Hanya Bisa Gunakan di private saja!`)
-             reply(`Selamat datang!\n\nSilahkan kirimkan kode nuklir di chat atau cari ${prefix}nhentaisearch`)
+             reply(`reply(`Selamat datang!\n\nSilahkan kirimkan kode nuklir di chat, kalo belum ada kode silahkan cari ${prefix}nhentaisearch`)`)
              break
       case 'nhentaisearch':
              if (args.length == 0) return reply(`Example: ${prefix + command} Gotoubun No Hanayome`)
