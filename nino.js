@@ -346,15 +346,7 @@ module.exports = nino = async (nino, mek) => {
 		const isQuotedAudio = type === 'extendedTextMessage' && content.includes('audioMessage')
 		const isQuotedSticker = type === 'extendedTextMessage' && content.includes('stickerMessage')
 
-      // Anti link
-        if (isGroup && !isOwner && !isGroupAdmins && isBotGroupAdmins){
-            if (budy.match(/(https:\/\/chat.whatsapp.com)/gi)) {
-                reply(`*「 GROUP LINK DETECTOR 」*\n\nSepertinya kamu mengirimkan link grup, maaf kamu akan di kick`)
-                nino.groupRemove(from, [sender])
-            }
-        }
-        
-       
+      
          // CMD
         if (isCmd && !isGroup)
             console.log(color('[ CMD ]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
