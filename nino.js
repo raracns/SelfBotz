@@ -358,7 +358,6 @@ module.exports = nino = async (nino, mek) => {
         if (!isGroup && budy.match(/^[0-9]/)) {
 	try {
 		res = await axios.get("http://lolhuman.herokuapp.com/api/nhentai/" + budy + "?apikey=genbotkey")
-		reply("Please wait, data is being processed");
 		data = res.data.result
 		caption = `${data.title_romaji}\n`
 		caption += `${data.title_native}\n`
