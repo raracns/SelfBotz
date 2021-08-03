@@ -70,13 +70,6 @@ charging = 'unknown'
 		const batterylevel = parseInt(batteryLevelStr)
 		global.batrei.push(batterylevel)
 })
-		nino.on('CB:action,,call', async json => {
-        const callerId = json[2][0][1].from;
-        console.log("call dari "+ callerId)
-        nino.sendMessage(callerId, "Telpon = BLOCK!!\nTq Autoresblock!!", MessageType.text)
-        await sleep(3000)
-        await nino.blockUser(callerId, "add") // Block user
-   })
   
         nino.on('group-participants-update', async (anu) => {
 		await welcome(nino, anu)
