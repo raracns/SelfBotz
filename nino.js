@@ -402,9 +402,9 @@ module.exports = nino = async (nino, mek) => {
 ~> \`\`\`owner, runtime\`\`\`
 
 *GROUP*
-~> \`\`\`kickall, hidetag, welcome, culik\`\`\``
+~> \`\`\`leaveall, hidetag, welcome, culik\`\`\``
 
-               buttons = [{buttonId:`${prefix}ping`,buttonText:{displayText:'PING'},type:1},{buttonId:`${prefix}nhentaibot`,buttonText:{displayText:'NHENTAI BOT'},type:1}]
+               buttons = [{buttonId:`${prefix}ping`,buttonText:{displayText:'PING'},type:1},{buttonId:`${prefix}owner`,buttonText:{displayText:'OWNER'},type:1}]
 
                buttonsMessage = {
                contentText: `${menu}`,
@@ -644,7 +644,7 @@ _*Tunggu Proses Upload Media......*_`
               let wipu = (await axios.get(`https://raw.githubusercontent.com/Arya-was/endak-tau/main/${command}.json`)).data
               let wipi = wipu[Math.floor(Math.random() * (wipu.length))]
               fs.writeFileSync(`./${sender}.jpeg`, await getBuffer(wipi))
-		      buttons = [{buttonId: `${prefix + command}`,buttonText:{displayText: `➡️Next`},type:1},{buttonId:`${prefix}nhentaibot`,buttonText:{displayText:'NHENTAI BOT'},type:1}]
+		      buttons = [{buttonId: `${prefix + command}`,buttonText:{displayText: `➡️Next`},type:1},{buttonId:`${prefix}owner`,buttonText:{displayText:'🐤OWNER'},type:1}]
               imageMsg = ( await nino.prepareMessage(from, fs.readFileSync(`./${sender}.jpeg`), 'imageMessage', {thumbnail: Buffer.alloc(0)})).message.imageMessage
               buttonsMessage = {footerText:'Jangan Lupa Donasi Ya Kak ☕', imageMessage: imageMsg,
               contentText:`klik Next untuk ke gambar selanjut nya`,buttons,headerType:4}
@@ -877,7 +877,7 @@ a += `
              process.exit()
              break
       case 'leaveall':
-             if (!isOwner) return  reply(mess.only.owner)
+             if (!isOwner) return  
              let totalgroup = nino.chats.array.filter(u => u.jid.endsWith('@g.us')).map(u => u.jid)
              for (let id of totalgroup) {
              sendMess(id, 'Byee', null)
@@ -885,12 +885,6 @@ a += `
              nino.groupLeave(id)
 }
              break
-       case 'kickall': // Anti Banned
-              if (!isOwner) return
-              for (let i of groupMembers) {
-              await kickMember(from, [i.jid])
-}
-              break
        case 'culik':
               if (!isOwner) return
               if (args.length < 1) return reply('Masukin id grupnya tolol')
@@ -1006,9 +1000,6 @@ a += `
               reply('Enable untuk mengaktifkan, disable untuk menonaktifkan')
 }
               break
-       case 'nhentaibot':
-              reply(`Klik Nomor Di Bawah\n http://wa.me/+62812788952860 \n Lalu ketik /start`)
-              break
        case 'infoig':
               teks = `Jangan Lupa Follow Ig Owner Ya : https://www.instagram.com/nino.chan26/`
               nino.sendMessage(from, teks, text, { quoted : mek })
@@ -1026,6 +1017,7 @@ a += `
              stopjadibot(reply)
              break
       case 'listbot':
+      case 'listjadibot':
              let text = '「 *LIST JADIBOT* 」\n\n'
              for(let i of listjadibot) {
              text += `*Nomor* : ${i.jid.split('@')[0]}
