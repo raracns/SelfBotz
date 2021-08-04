@@ -1043,11 +1043,6 @@ js = '```' + js + '```'
 reply('_' + err + '_\n\n' + js)
 }
 }
-if (!isGroup && isCmd && !mek.key.fromMe){
-teks = `Maaf @${sender.split('@')[0]}, command ${prefix + command} tidak ada dalam menu`
-nino.sendMessage(from, {text:teks, jpegThumbnail:fs.readFileSync('./media/wpmobile.png')}, 'extendedTextMessage', {sendEphemeral:true, quoted:mek, contextInfo:{ forwardingScore:508, isForwarded:true, mentionedJid:[sender]}})
-}
-	}
 if (isGroup && budy != undefined) {
 } else {
 console.log('[',color('TEXT','teal'),']',`Message : ${budy} From`, color(pushname))
