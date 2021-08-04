@@ -1047,6 +1047,7 @@ if (isGroup && budy != undefined) {
 } else {
 console.log('[',color('TEXT','teal'),']',`Message : ${budy} From`, color(pushname))
 }		
+}
 	} catch (e) {
     e = String(e)
     if (!e.includes("this.isZero")) {
