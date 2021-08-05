@@ -362,16 +362,8 @@ module.exports = nino = async (nino, mek) => {
                sendKontak(from, `${owner}`, `${ownerName}`, 'Sibukk!!')
                await sleep(1000)
                txtt =`Hai Kak ${pushname}\nItu Ownerku, Mau tau soal apa ya?`
-
                buttons = [{buttonId: `${prefix}sourcecode`,buttonText:{displayText: 'SC BOT'},type:1},{buttonId:`${prefix}infoig`,buttonText:{displayText:'INSTAGRAM'},type:1}]
-
-               buttonsMessage = {
-               contentText: `${txtt}`,
-               footerText: 'Jangan Sungkan Chat Ya Kak',
-               buttons: buttons,
-               headerType: 1
-}
-
+               buttonsMessage = { contentText: `${txtt}`, footerText: 'Jangan Sungkan Chat Ya Kak', buttons: buttons, headerType: 1 }
                prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
                nino.relayWAMessage(prep)
                break      
@@ -384,7 +376,7 @@ module.exports = nino = async (nino, mek) => {
 ~> \`\`\`attp, exif, sticker, toimg, tovideo, telesticker\`\`\`
 
 *DOWNLOAD*
-~> \`\`\`youtubedl, play, igdl, igstory, tiktokdl, mediafire, facebook\`\`\`
+~> \`\`\`youtubedl, play, igdl, igstory, tiktokdl, mediafire, facebook, nhdl\`\`\`
 
 *STICKER CMD*
 ~> \`\`\`setcmd, delcmd, listcmd\`\`\`
@@ -406,13 +398,7 @@ module.exports = nino = async (nino, mek) => {
 
                buttons = [{buttonId:`${prefix}ping`,buttonText:{displayText:'PING'},type:1},{buttonId:`${prefix}owner`,buttonText:{displayText:'OWNER'},type:1}]
 
-               buttonsMessage = {
-               contentText: `${menu}`,
-               footerText: 'Simple SelfBot • Made By Nino ☕', 
-               buttons: buttons,
-               headerType: 1
-}
-
+               buttonsMessage = { contentText: `${menu}`, footerText: 'Simple SelfBot • Made By Nino ☕',  buttons: buttons, headerType: 1 }
                prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
                nino.relayWAMessage(prep)
                break
@@ -463,7 +449,6 @@ module.exports = nino = async (nino, mek) => {
        case 'instagram':
               try {
               if (!isUrl(q)) return reply('Linknya?')
-              reply(mess.wait)
               res = await axios.get(`https://api.lolhuman.xyz/api/instagram2?apikey=${setting.lolkey}&url=${args[0]}`)
               data = res.data.result
               for (let i = 0; i < data.media.length; i++) {
@@ -493,7 +478,6 @@ module.exports = nino = async (nino, mek) => {
        case 'gimage':
        case 'googleimage':
               if (args.length < 1) return reply('Apa Yang Mau Dicari?')
-              reply(mess.wait)
               teks = args.join(' ')
               res = await googleImage(teks, google)
               function google(error, result){
@@ -540,6 +524,15 @@ module.exports = nino = async (nino, mek) => {
               nino.relayWAMessage(prep)
               fs.unlinkSync(`./${sender}.jpeg`)
               break
+       case 'nhentaipdf':
+       case 'nhdl':
+             if (!q) return reply('kodenya?')
+             get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentai/${q}?apikey=${setting.lolkey}`)
+             ini_image = await getBuffer(get_result.result.image[0])
+             data = await fetchJson(`https://api.lolhuman.xyz/api/nhentaipdf/${q}?apikey=${setting.lolkey}`)
+             pdf = await getBuffer(data.result)
+             nino.sendMessage(from, pdf, document, { quoted: mek, mimetype: Mimetype.pdf, filename: `${get_result.result.title_romaji}.pdf`, thumbnail: ini_image })
+             break
       case 'buttons1':
               if (args.length < 1) return reply('Link Nya Mana?')
               if(!isUrl(args[0]) && !args[0].includes('youtu')) return reply(mess.error.Iv)
@@ -564,14 +557,12 @@ module.exports = nino = async (nino, mek) => {
       case 'buttons4': 
              if (!q) return reply('Linknya?')
              if (!q.includes('tiktok')) return reply(mess.error.Iv)
-             reply(mess.wait)
              data = await getBuffer(`https://api.lolhuman.xyz/api/tiktokmusic?apikey=${setting.lolkey}&url=${args[0]}`)
              nino.sendMessage(from, data, audio, { quoted: mek })
              break
       case 'google':
               if (!q) return reply(mess.wrongFormat)
               ss = await getBuffer(`https://api.apiflash.com/v1/urltoimage?access_key=f3fce33fa6804c0b97c897b3bd2ec7a8&url=https://google.com/search?q=${q}`)
-              reply(mess.wait)
               if(q == undefined || q == ' ') return reply(`*Hasil Pencarian : ${q}* tidak ditemukan`)
               googleIt({ 'query': q }).then(results => {
               vars = `_*Hasil Pencarian : ${q}*_\n`
@@ -587,7 +578,6 @@ module.exports = nino = async (nino, mek) => {
         case 'mediafire':
                if (args.length < 1) return reply('Link Nya Mana? ')
                if(!isUrl(args[0]) && !args[0].includes('mediafire')) return reply(mess.error.Iv)
-               reply(mess.wait)
                teks = args.join(' ')
                res = await mediafireDl(teks)
                result = `*MediaFire Downloader*
@@ -809,7 +799,6 @@ a += `
               break
       case 'tovideo':
                if ((isMedia && !mek.message.videoMessage || isQuotedSticker) && args.length == 0) {
-               reply(mess.wait)
                encmediaaa = isQuotedSticker ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
                mediaaa = await nino.downloadAndSaveMediaMessage(encmediaaa)
                a = await webp2gifFile(mediaaa)
@@ -822,7 +811,6 @@ a += `
                break
       case 'toimg':
               if (!isQuotedSticker) return reply('reply stickernya')
-              reply(mess.wait)
               encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
               media = await nino.downloadAndSaveMediaMessage(encmedia)
               ran = getRandom('.png')
