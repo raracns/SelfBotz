@@ -397,7 +397,6 @@ module.exports = nino = async (nino, mek) => {
 ~> \`\`\`leaveall, hidetag, welcome, culik\`\`\``
 
                buttons = [{buttonId:`${prefix}ping`,buttonText:{displayText:'PING'},type:1},{buttonId:`${prefix}owner`,buttonText:{displayText:'OWNER'},type:1}]
-
                buttonsMessage = { contentText: `${menu}`, footerText: 'Simple SelfBot • Made By Nino ☕',  buttons: buttons, headerType: 1 }
                prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
                nino.relayWAMessage(prep)
@@ -561,26 +560,26 @@ module.exports = nino = async (nino, mek) => {
              nino.sendMessage(from, data, audio, { quoted: mek })
              break
       case 'google':
-              if (!q) return reply(mess.wrongFormat)
-              ss = await getBuffer(`https://api.apiflash.com/v1/urltoimage?access_key=f3fce33fa6804c0b97c897b3bd2ec7a8&url=https://google.com/search?q=${q}`)
-              if(q == undefined || q == ' ') return reply(`*Hasil Pencarian : ${q}* tidak ditemukan`)
-              googleIt({ 'query': q }).then(results => {
-              vars = `_*Hasil Pencarian : ${q}*_\n`
-              for (let i = 0; i < results.length; i++) {
-              vars +=  `\n═════════════════\n\n*Judul:* ${results[i].title}\n\n*Deskripsi:* ${results[i].snippet}\n\n*Link:* ${results[i].link}\n\n`
+             if (!q) return reply(mess.wrongFormat)
+             ss = await getBuffer(`https://api.apiflash.com/v1/urltoimage?access_key=f3fce33fa6804c0b97c897b3bd2ec7a8&url=https://google.com/search?q=${q}`)
+             if(q == undefined || q == ' ') return reply(`*Hasil Pencarian : ${q}* tidak ditemukan`)
+             googleIt({ 'query': q }).then(results => {
+             vars = `_*Hasil Pencarian : ${q}*_\n`
+             for (let i = 0; i < results.length; i++) {
+             vars +=  `\n═════════════════\n\n*Judul:* ${results[i].title}\n\n*Deskripsi:* ${results[i].snippet}\n\n*Link:* ${results[i].link}\n\n`
 }
-               nino.sendMessage(from, ss, image, {caption: vars, quoted : mek, thumbnail: Buffer.alloc(0) })
-               }).catch(e => {
-               console.log(e)
-               reply(`${e}`)
+             nino.sendMessage(from, ss, image, {caption: vars, quoted : mek, thumbnail: Buffer.alloc(0) })
+             }).catch(e => {
+             console.log(e)
+             reply(`${e}`)
 })
-               break
-        case 'mediafire':
-               if (args.length < 1) return reply('Link Nya Mana? ')
-               if(!isUrl(args[0]) && !args[0].includes('mediafire')) return reply(mess.error.Iv)
-               teks = args.join(' ')
-               res = await mediafireDl(teks)
-               result = `*MediaFire Downloader*
+             break
+      case 'mediafire':
+             if (args.length < 1) return reply('Link Nya Mana? ')
+             if(!isUrl(args[0]) && !args[0].includes('mediafire')) return reply(mess.error.Iv)
+             teks = args.join(' ')
+             res = await mediafireDl(teks)
+             result = `*MediaFire Downloader*
                
 📜 Nama : ${res[0].nama}
 💡 Ukuran : ${res[0].size}
@@ -995,7 +994,7 @@ a += `
        case 'sourcecode': 
        case 'sc': 
        case 'src':
-              textImg(`Bot ini menggunakan sc : https://github.com/Nino-chan02/NinoWangy`)
+              textImg(`Bot ini menggunakan sc : https://github.com/Nino-chan02/SelfBotz`)
               break
        case 'jadibot':
               if (!isOwner) return
