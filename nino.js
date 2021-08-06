@@ -54,7 +54,7 @@ const { jadibot, stopjadibot, listjadibot } = require('./lib/jadibot')
 hit_today = []
 banChats = true
 
-let fakeimage = fs.readFileSync("./media/wpmobile.png")
+let fakeimage = fs.readFileSync("./media/Nakano.jpg")
 let setting = JSON.parse(fs.readFileSync('./setting.json'))
 
 prefix = setting.prefix
@@ -817,7 +817,7 @@ a += `
               fs.unlinkSync(media)
               if (err) return reply('Gagal, pada saat mengkonversi sticker ke gambar')
               buffer = fs.readFileSync(ran)
-              nino.sendMessage(from, buffer, image, {quoted: mek, caption: 'Nih'})
+              nino.sendMessage(from, buffer, image, {quoted: mek, thumbnail: fakeimage, caption: 'Nih'})
               fs.unlinkSync(ran)
 })
               break
