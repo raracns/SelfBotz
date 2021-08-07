@@ -50,11 +50,13 @@ const { mediafireDl } = require('./lib/mediafire.js')
 const { webp2gifFile, igDownloader, TiktokDownloader } = require("./lib/gif.js")
 const { y2mateA, y2mateV } = require('./lib/y2mate')
 const { jadibot, stopjadibot, listjadibot } = require('./lib/jadibot')
+const truth = JSON.parse(fs.readFileSync('./database/truth.json'))
+const dare = JSON.parse(fs.readFileSync('./database/dare.json'))
 
 hit_today = []
 banChats = true
 
-let fakeimage = fs.readFileSync("./media/Nakano.jpg")
+let fakeimage = fs.readFileSync("./media/wpmobile.png")
 let setting = JSON.parse(fs.readFileSync('./setting.json'))
 
 prefix = setting.prefix
@@ -397,6 +399,7 @@ module.exports = nino = async (nino, mek) => {
 ~> \`\`\`leaveall, hidetag, welcome, culik\`\`\``
 
                buttons = [{buttonId:`${prefix}ping`,buttonText:{displayText:'PING'},type:1},{buttonId:`${prefix}owner`,buttonText:{displayText:'OWNER'},type:1}]
+
                buttonsMessage = { contentText: `${menu}`, footerText: 'Simple SelfBot • Made By Nino ☕',  buttons: buttons, headerType: 1 }
                prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
                nino.relayWAMessage(prep)
@@ -559,27 +562,50 @@ module.exports = nino = async (nino, mek) => {
              data = await getBuffer(`https://api.lolhuman.xyz/api/tiktokmusic?apikey=${setting.lolkey}&url=${args[0]}`)
              nino.sendMessage(from, data, audio, { quoted: mek })
              break
+      case 'buttons5':
+              const mathdare = dare[Math.floor(Math.random() * (dare.length))]
+              result = `${mathdare}`
+              buttons = [{buttonId: `${prefix}buttons6`,buttonText:{displayText: 'Truth'},type:1},{buttonId:`${prefix}buttons5`,buttonText:{displayText:'Dare'},type:1},{buttonId:`${prefix}tod`,buttonText:{displayText:'Tod'},type:1}]
+              buttonsMessage = { contentText: `${result}`, footerText: 'Kebenaran atau tantangan?', buttons: buttons, headerType: 1 }
+              prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
+              nino.relayWAMessage(prep)
+              break
+       case 'buttons6':
+              const randomtruth = truth[Math.floor(Math.random() * truth.length)]
+              result = `${randomtruth}`
+              buttons = [{buttonId: `${prefix}buttons6`,buttonText:{displayText: 'Truth'},type:1},{buttonId:`${prefix}buttons5`,buttonText:{displayText:'Dare'},type:1},{buttonId:`${prefix}tod`,buttonText:{displayText:'Tod'},type:1}]
+              buttonsMessage = { contentText: `${result}`, footerText: 'Kebenaran atau tantangan?', buttons: buttons, headerType: 1 }
+              prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
+              nino.relayWAMessage(prep)
+              break
+      case 'tod':
+              result =`*Truth Or Dare*\nPemain diberi pilihan antara menjawab pertanyaan dengan jujur, atau melakukan tantangan yang diberikan`
+              buttons = [{buttonId: `${prefix}buttons6`,buttonText:{displayText: 'Truth'},type:1},{buttonId:`${prefix}buttons5`,buttonText:{displayText:'Dare'},type:1},{buttonId:`${prefix}tod`,buttonText:{displayText:'Tod'},type:1}]
+              buttonsMessage = { contentText: `${result}`, footerText: 'Kebenaran atau tantangan?', buttons: buttons, headerType: 1 }
+              prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
+              nino.relayWAMessage(prep)
+              break
       case 'google':
-             if (!q) return reply(mess.wrongFormat)
-             ss = await getBuffer(`https://api.apiflash.com/v1/urltoimage?access_key=f3fce33fa6804c0b97c897b3bd2ec7a8&url=https://google.com/search?q=${q}`)
-             if(q == undefined || q == ' ') return reply(`*Hasil Pencarian : ${q}* tidak ditemukan`)
-             googleIt({ 'query': q }).then(results => {
-             vars = `_*Hasil Pencarian : ${q}*_\n`
-             for (let i = 0; i < results.length; i++) {
-             vars +=  `\n═════════════════\n\n*Judul:* ${results[i].title}\n\n*Deskripsi:* ${results[i].snippet}\n\n*Link:* ${results[i].link}\n\n`
+              if (!q) return reply(mess.wrongFormat)
+              ss = await getBuffer(`https://api.apiflash.com/v1/urltoimage?access_key=f3fce33fa6804c0b97c897b3bd2ec7a8&url=https://google.com/search?q=${q}`)
+              if(q == undefined || q == ' ') return reply(`*Hasil Pencarian : ${q}* tidak ditemukan`)
+              googleIt({ 'query': q }).then(results => {
+              vars = `_*Hasil Pencarian : ${q}*_\n`
+              for (let i = 0; i < results.length; i++) {
+              vars +=  `\n═════════════════\n\n*Judul:* ${results[i].title}\n\n*Deskripsi:* ${results[i].snippet}\n\n*Link:* ${results[i].link}\n\n`
 }
-             nino.sendMessage(from, ss, image, {caption: vars, quoted : mek, thumbnail: Buffer.alloc(0) })
-             }).catch(e => {
-             console.log(e)
-             reply(`${e}`)
+               nino.sendMessage(from, ss, image, {caption: vars, quoted : mek, thumbnail: Buffer.alloc(0) })
+               }).catch(e => {
+               console.log(e)
+               reply(`${e}`)
 })
-             break
-      case 'mediafire':
-             if (args.length < 1) return reply('Link Nya Mana? ')
-             if(!isUrl(args[0]) && !args[0].includes('mediafire')) return reply(mess.error.Iv)
-             teks = args.join(' ')
-             res = await mediafireDl(teks)
-             result = `*MediaFire Downloader*
+               break
+        case 'mediafire':
+               if (args.length < 1) return reply('Link Nya Mana? ')
+               if(!isUrl(args[0]) && !args[0].includes('mediafire')) return reply(mess.error.Iv)
+               teks = args.join(' ')
+               res = await mediafireDl(teks)
+               result = `*MediaFire Downloader*
                
 📜 Nama : ${res[0].nama}
 💡 Ukuran : ${res[0].size}
@@ -817,7 +843,7 @@ a += `
               fs.unlinkSync(media)
               if (err) return reply('Gagal, pada saat mengkonversi sticker ke gambar')
               buffer = fs.readFileSync(ran)
-              nino.sendMessage(from, buffer, image, {quoted: mek, thumbnail: fakeimage, caption: 'Nih'})
+              nino.sendMessage(from, buffer, image, {quoted: mek, caption: 'Nih'})
               fs.unlinkSync(ran)
 })
               break
@@ -994,7 +1020,7 @@ a += `
        case 'sourcecode': 
        case 'sc': 
        case 'src':
-              textImg(`Bot ini menggunakan sc : https://github.com/Nino-chan02/SelfBotz`)
+              textImg(`Bot ini menggunakan sc : https://github.com/Nino-chan02/NinoWangy`)
               break
        case 'jadibot':
               if (!isOwner) return
