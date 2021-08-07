@@ -524,16 +524,11 @@ module.exports = nino = async (nino, mek) => {
        case 'nhdl':
              if (!q) return reply('kodenya?')
              reply('Please wait, data is being processed')
-             try {
              get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentai/${q}?apikey=${setting.lolkey}`)
              ini_image = await getBuffer(get_result.result.image[0])
              data = await fetchJson(`https://api.lolhuman.xyz/api/nhentaipdf/${q}?apikey=${setting.lolkey}`)
              pdf = await getBuffer(data.result)
              nino.sendMessage(from, pdf, document, { quoted: mek, mimetype: Mimetype.pdf, filename: `${get_result.result.title_romaji}.pdf`, thumbnail: ini_image })
-             } catch (e) {
-		     console.log(color(e))
-		     reply('No Dōjinshi found')
-	}
              break
       case 'buttons1':
               if (args.length < 1) return reply('Link Nya Mana?')
