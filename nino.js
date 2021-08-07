@@ -170,12 +170,6 @@ module.exports = nino = async (nino, mek) => {
 
         responseButton = (type == 'listResponseMessage') ? mek.message.listResponseMessage.title : ''
 
-        
-        const listmsg = (from, title, desc, list) => { // ngeread nya pake rowsId, jadi command nya ga keliatan
-            let po = nino.prepareMessageFromContent(from, {"listMessage": {"title": title,"description": desc,"buttonText": "Pilih Disini","footerText": "Jangan Lupa Donasi Ya Kak ☕","listType": "SINGLE_SELECT","sections": list}}, {})
-            return nino.relayWAMessage(po, {waitForAck: true})
-        }
-        
         const isUrl = (url) => {
             return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/, 'gi'))
         }
@@ -1020,7 +1014,7 @@ a += `
        case 'sourcecode': 
        case 'sc': 
        case 'src':
-              textImg(`Bot ini menggunakan sc : https://github.com/Nino-chan02/NinoWangy`)
+              textImg(`Bot ini menggunakan sc : https://github.com/Nino-chan02/SelfBotz`)
               break
        case 'jadibot':
               if (!isOwner) return
