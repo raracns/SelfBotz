@@ -1026,7 +1026,7 @@ a += `
              break
       case 'listbot':
       case 'listjadibot':
-             text = '「 *LIST JADIBOT* 」\n\n'
+             let text = '「 *LIST JADIBOT* 」\n\n'
              for(let i of listjadibot) {
              text += `*Nomor* : ${i.jid.split('@')[0]}
 *Nama* : ${i.name}
@@ -1036,6 +1036,20 @@ a += `
             reply(text)
             break
 default:
+if (budy.startsWith('=>')){
+if (!isOwner) return
+try {
+return nino.sendMessage(from, 
+`${a}📥 Input: ${budy.slice(3)}
+📤 OutPut: 
+${JSON.stringify(eval(budy.slice(2)),null,'\t')}
+${a}`
+,text, {quoted:mek })
+} catch(err) {
+e = String(err)
+reply(`${a} "err" :  "${e}"${a}`)
+}
+}
 if (!isOwner) return
 if (budy.startsWith('> ')) {
 try {
