@@ -379,7 +379,7 @@ module.exports = nino = async (nino, mek) => {
 ~> \`\`\`setcmd, delcmd, listcmd\`\`\`
 
 *SEARCH*
-~> \`\`\`chara, image, google, ytsearch, pinterest, ytdesc\`\`\`
+~> \`\`\`image, google, ytsearch, pinterest, ytdesc\`\`\`
 
 *SESSION*
 ~> \`\`\`jadibot, stopjadibot, listjadibot\`\`\`
@@ -639,13 +639,6 @@ _*Tunggu Proses Upload Media......*_`
              res = await yts(teks)
              reply(res.all[0].description)
              break
-    case 'chara':
-            if(!q) return reply(`gambar apa?\n${prefix}chara nino`)
-            let im = await hx.chara(q)
-            let acak = im[Math.floor(Math.random() * im.length)]
-            let li = await getBuffer(acak)
-            await nino.sendMessage(from,li,image,{quoted: mek})
-            break
        case 'waifu':
        case 'loli':
        case 'husbu':
@@ -723,13 +716,17 @@ _*Tunggu Proses Upload Media......*_`
 }
                break
          case 'pinterest':
+         case 'pin':
               if (args.length < 1) return reply(`${prefix}Nakano Nino`)
-              reply(mess.wait)
-              teks = args.join(' ')
-              res = await axios.get(`https://fdciabdul.tech/api/pinterest?keyword=${teks}`)
-              var string = JSON.parse(JSON.stringify(res.data))
-              var random =  string[Math.floor(Math.random() * string.length)]
-              sendFileFromUrl(random, image, {quoted: mek, thumbnail: Buffer.alloc(0), caption: `*Hasil Pencarian Dari : ${teks}*`})
+              data = await fetchJson(`https://lolhuman.herokuapp.com/api/pinterest?apikey=${setting.lolkey}&query=${q}`)
+              buttons = [{buttonId: `${prefix + command} ${q}`,buttonText:{displayText: `➡️Next`},type:1}]
+              fs.writeFileSync(`./${sender}.jpeg`, await getBuffer(data.result))
+              imageMsg = ( await nino.prepareMessage(from, fs.readFileSync(`./${sender}.jpeg`), 'imageMessage', {thumbnail: Buffer.alloc(0)})).message.imageMessage
+              buttonsMessage = {footerText:'Jangan Lupa Donasi Ya Kak ☕', imageMessage: imageMsg,
+              contentText:`*Hasil Pencarian Dari : ${q}`,buttons,headerType:4}
+              prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
+              nino.relayWAMessage(prep)
+              fs.unlinkSync(`./${sender}.jpeg`)
               break
        case 'yts':
        case 'ytsearch':
