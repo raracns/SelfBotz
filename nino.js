@@ -723,7 +723,7 @@ _*Tunggu Proses Upload Media......*_`
               fs.writeFileSync(`./${sender}.jpeg`, await getBuffer(data.result))
               imageMsg = ( await nino.prepareMessage(from, fs.readFileSync(`./${sender}.jpeg`), 'imageMessage', {thumbnail: Buffer.alloc(0)})).message.imageMessage
               buttonsMessage = {footerText:'Jangan Lupa Donasi Ya Kak ☕', imageMessage: imageMsg,
-              contentText:`*Hasil Pencarian Dari : ${q}`,buttons,headerType:4}
+              contentText:`*Hasil Pencarian Dari : ${q}*`,buttons,headerType:4}
               prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
               nino.relayWAMessage(prep)
               fs.unlinkSync(`./${sender}.jpeg`)
