@@ -4,6 +4,6 @@
 * [`MhankBarBar`](https://github.com/MhankBarBar)
 * [`Hexa`](https://github.com/Hexagonz)
 * [`Galang`](https://github.com/Zobin33)
-* [`Franky`](https://github.com/Frankysolo)
+* [`Franky`](https://github.com/Franky404)
 * [`Arya`](https://github.com/Arya-was)
 
