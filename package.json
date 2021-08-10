@@ -1,5 +1,5 @@
 {
-  "name": "NinoWangy",
+  "name": "SelfBotz", 
   "version": "1.0.0",
   "description": "Gak Ada",
   "main": "main.js",
@@ -12,7 +12,7 @@
   },
   "author": "nino",
   "dependencies": {
-    "@adiwajshing/baileys": "github:adiwajshing/baileys",
+    "@adiwajshing/baileys": "^3.4.1",
     "axios": "^0.21.1",
     "chalk": "^4.1.1",
     "figlet": "^1.5.0",
@@ -34,7 +34,8 @@
     "spinnies": "^0.5.1",
     "twitter-url-direct": "^1.0.1",
     "util": "^0.12.4",
-    "yt-search": "^2.8.0"
+    "yt-search": "^2.8.0",
+    "zs-extract": "^1.3.3"
   },
   "repository": {
     "type": "git",

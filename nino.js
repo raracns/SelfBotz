@@ -21,7 +21,7 @@ const speed = require('performance-now')
 const { spawn, exec, execSync } = require("child_process")
 const ffmpeg = require('fluent-ffmpeg')
 const twitterGetUrl = require("twitter-url-direct")
-const googleImage = require('g-i-s')
+const _gis = require('g-i-s')
 const fetch = require('node-fetch');
 const request = require('request');
 const yts = require( 'yt-search')
@@ -30,6 +30,7 @@ const toMs = require('ms')
 const axios = require("axios")
 const fs = require("fs-extra")
 const util = require('util')
+const zsExtract = require('zs-extract')
 const qrcodes = require('qrcode');
 const googleIt = require('google-it')
 const os = require('os');
@@ -479,20 +480,64 @@ module.exports = nino = async (nino, mek) => {
 }
 });
               break
-       case 'image':
-       case 'gimage':
-       case 'googleimage':
-              if (args.length < 1) return reply('Apa Yang Mau Dicari?')
-              teks = args.join(' ')
-              res = await googleImage(teks, google)
-              function google(error, result){
-              if (error){ return reply('_[ ! ] Error Terjari Kesalahan Atau Hasil Tidak Ditemukan_')}
-              else {
-              gugIm = result
-              random =  gugIm[Math.floor(Math.random() * gugIm.length)].url
-              sendFileFromUrl(random, image, {quoted: mek, thumbnail: Buffer.alloc(0), caption: `*Hasil Pencarian Dari :* ${teks}`})
+       case 'zippydl': 
+       case 'zippyshare':
+              try {
+	          if (!q) return reply('Masukkan link zippyshare nya!')
+              if (!q.includes('zippyshare.com')) return reply(mess.error.Iv)
+              reply(mess.wait)
+              res = await zsExtract.extract(args[0])
+              reply(`
+┏┉⌣ ┈̥-̶̯͡..̷̴✽̶┄┈┈┈┈┈┈┈┈┈┈┉┓
+┆ *ZIPPYSHARE DOWNLOAD*
+└┈┈┈┈┈┈┈┈┈┈┈⌣ ┈̥-̶̯͡..̷̴✽̶⌣ ✽̶
+
+*Data Berhasil Didapatkan!*
+*Filename:* ${res.filename}
+*Link download:* ${res.download}
+
+_*Tunggu Proses Upload Media......*_ `)
+              sendFileFromUrl(from, res.download, res.filename, mek)
+              } catch (e) {
+	          console.log(e)
+	          reply(String(e))
 }
-}
+              break
+       case 'ghsearch': 
+       case 'githubsearch': 
+       case 'searchgithub':
+             if (!q) return reply('Cari apa?')
+             res = await fetch('https://api.github.com/search/repositories?q='+q)
+             json = await res.json()
+             if (res.status !== 200) throw json
+             str = json.items.map((repo, index) => {
+             return `
+${1 + index}. *${repo.full_name}*${repo.fork ? ' (fork)' : ''}
+_${repo.html_url}_
+_Dibuat pada *${formatDate(repo.created_at)}*_
+_Terakhir update pada *${formatDate(repo.updated_at)}*_
+👁  ${repo.watchers}   🍴  ${repo.forks}   ⭐  ${repo.stargazers_count}
+${repo.open_issues} Issue${repo.description ? `
+*Deskripsi:*\n${repo.description}` : ''}
+*Clone:* \`\`\`$ git clone ${repo.clone_url}\`\`\`
+`.trim()).join('\n\n')
+             reply(str)
+             break
+      case 'googleimage': 
+      case 'image': 
+      case 'gimage':
+             let gis = promisify(_gis)
+             if (!q) return reply('Cari apa?')
+             reply(mess.wait)
+             for (let i = 0; i < 5; i++) {
+             results = await gis(q) || []
+             let { url, width, height } = pickRandom(results) || {}
+             if (!url) return reply('404 Not Found')
+             sendFileFromUrl(from, url, 'gimage', `
+Google Image : *${q}*
+- image size : ${height} x ${width}
+- link : ${url}
+`.trim(), mek, {thumbnail: Buffer.alloc(0)})}
              break
       case 'youtubedl':
              if (args.length < 1) return reply('Link Nya Mana?')
@@ -998,6 +1043,15 @@ a += `
                teks = `*YOUR APIKEY*\n\n➸ Ussername= ${anu.result.username}\n➸ Request= ${anu.result.requests}\n➸ Today= ${anu.result.today}\n➸ Akun Type= ${anu.result.account_type}\n➸ Expired= ${anu.result.expired}\n➸ API = https://lolhuman.herokuapp.com`
                nino.sendMessage(from, teks, text, {quoted: mek})
                break
+        case 'q': 
+               if (!m.quoted) return reply('Chat yg di reply tidak mengandung reply!')
+               try {
+	           tot = await client.serializeM(await m.getQuotedObj())
+               return tot.quoted.copyNForward(m.chat, true, {quoted: mek, thumbnail:fakeimage, sendEphemeral:true})
+               } catch (e) {
+               console.log(color(e, 'red'))
+	           reply(String(e))}
+	           break
        case 'welcome':
               if (!isGroup) return reply(mess.only.group)
               if (args.length < 1) return reply(`${prefix}welcome enable/disable`)
