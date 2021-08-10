@@ -290,7 +290,7 @@ module.exports = nino = async (nino, mek) => {
            if(mime.split("/")[0] === "audio"){
            mime = Mimetype.mp4Audio
 }
-           nino.sendMessage(to, media, type, {quoted: mek, mimetype: mime, caption: text, thumbnail: Buffer.alloc(0), contextInfo: {"mentionedJid": mids}})
+           nino.sendMessage(to, media, type, {quoted: mek, mimetype: mime, caption: text, contextInfo: {"mentionedJid": mids}})
                      
            fs.unlinkSync(filename)
 });
@@ -461,7 +461,7 @@ module.exports = nino = async (nino, mek) => {
               res = await axios.get(`https://api.lolhuman.xyz/api/instagram2?apikey=${setting.lolkey}&url=${args[0]}`)
               data = res.data.result
               for (let i = 0; i < data.media.length; i++) {
-              sendMediaURL(from, data.media[i], data.caption })
+              sendMediaURL(from, data.media[i], data.caption, {thumbnail: Buffer.alloc(0)})
 }
               } catch (e) {
               console.log(e)
