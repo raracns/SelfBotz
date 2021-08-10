@@ -290,7 +290,7 @@ module.exports = nino = async (nino, mek) => {
            if(mime.split("/")[0] === "audio"){
            mime = Mimetype.mp4Audio
 }
-           nino.sendMessage(to, media, type, {quoted: mek, mimetype: mime, caption: text, contextInfo: {"mentionedJid": mids}})
+           nino.sendMessage(to, media, type, {quoted: mek, mimetype: mime, caption: text, thumbnail: Buffer.alloc(0), contextInfo: {"mentionedJid": mids}})
                      
            fs.unlinkSync(filename)
 });
