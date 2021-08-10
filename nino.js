@@ -520,9 +520,10 @@ _Terakhir update pada *${formatDate(repo.updated_at)}*_
 ${repo.open_issues} Issue${repo.description ? `
 *Deskripsi:*\n${repo.description}` : ''}
 *Clone:* \`\`\`$ git clone ${repo.clone_url}\`\`\`
-`.trim()).join('\n\n')
-             reply(str)
-             break
+`.trim()
+}).join('\n\n')
+            reply(str)
+            break
       case 'googleimage': 
       case 'image': 
       case 'gimage':
