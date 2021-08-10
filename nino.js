@@ -501,7 +501,7 @@ module.exports = nino = async (nino, mek) => {
 *Link download:* ${res.download}
 
 _*Tunggu Proses Upload Media......*_ `)
-              sendFileFromUrl(from, res.download, res.filename, mek)
+              sendMediaURL(from, res.download, res.filename, mek)
               } catch (e) {
 	          console.log(e)
 	          reply(String(e))
@@ -528,21 +528,22 @@ ${repo.open_issues} Issue${repo.description ? `
 }).join('\n\n')
             reply(str)
             break
-      case 'googleimage': 
-      case 'image': 
-      case 'gimage':
-             let gis = promisify(_gis)
-             if (!q) return reply('Cari apa?')
-             reply(mess.wait)
-             for (let i = 0; i < 5; i++) {
-             results = await gis(q) || []
-             let { url, width, height } = pickRandom(results) || {}
-             if (!url) return reply('404 Not Found')
-             sendFileFromUrl(from, url, 'gimage', `
+     case 'googleimage': 
+     case 'image': 
+     case 'gimage':
+            let gis = promisify(_gis)
+            if (!q) return reply('Cari apa?')
+            reply(mess.wait)
+            for (let i = 0; i < 5; i++) {
+            results = await gis(q) || []
+            let { url, width, height } = pickRandom(results) || {}
+            if (!url) return reply('404 Not Found')
+            sendMediaURL(from, url, 'gimage', `
 Google Image : *${q}*
 - image size : ${height} x ${width}
 - link : ${url}
-`.trim(), mek, {thumbnail: Buffer.alloc(0)})}
+`.trim(), mek, {thumbnail: Buffer.alloc(0)})
+}
              break
       case 'youtubedl':
              if (args.length < 1) return reply('Link Nya Mana?')
