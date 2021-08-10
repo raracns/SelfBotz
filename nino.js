@@ -461,7 +461,7 @@ module.exports = nino = async (nino, mek) => {
               res = await axios.get(`https://api.lolhuman.xyz/api/instagram2?apikey=${setting.lolkey}&url=${args[0]}`)
               data = res.data.result
               for (let i = 0; i < data.media.length; i++) {
-              sendMediaURL(from, data.media[i], data.caption, {thumbnail: Buffer.alloc(0)})
+              sendMediaURL(from, data.media[i], data.caption })
 }
               } catch (e) {
               console.log(e)
@@ -516,7 +516,7 @@ ${repo.open_issues} Issue${repo.description ? `
               else {
               gugIm = result
               random =  gugIm[Math.floor(Math.random() * gugIm.length)].url
-              sendFileFromUrl(random, image, {quoted: mek, thumbnail: Buffer.alloc(0), caption: `*Hasil Pencarian Dari :* ${teks}`})
+              sendFileFromUrl(random, image, {quoted: mek, caption: `*Hasil Pencarian Dari :* ${teks}`})
 }
 }
              break
@@ -548,7 +548,7 @@ ${repo.open_issues} Issue${repo.description ? `
               result = `⚜️ *Nickname*: ${data.result.author.nickname}\n❤️ *Like*: ${data.result.statistic.diggCount}\n💬 *Komentar*: ${data.result.statistic.commentCount}\n🔁 *Share*: ${data.result.statistic.shareCount}\n🎞️ *Views*: ${data.result.statistic.playCount}\n📑 *Desc*: ${data.result.title}`
               buttons = [{buttonId: `${prefix}buttons3 ${q}`,buttonText:{displayText: `▶️ Video`},type:1},{buttonId:`${prefix}buttons4 ${q}`,buttonText:{displayText:'🎵 Audio'},type:1}]
               fs.writeFileSync(`./${sender}.jpeg`, await getBuffer(data.result.thumbnail))
-              imageMsg = ( await nino.prepareMessage(from, fs.readFileSync(`./${sender}.jpeg`), 'imageMessage', {thumbnail: Buffer.alloc(0)})).message.imageMessage
+              imageMsg = ( await nino.prepareMessage(from, fs.readFileSync(`./${sender}.jpeg`), 'imageMessage'.message.imageMessage
               buttonsMessage = {footerText:'Pilih satu format di bawah ini', imageMessage: imageMsg,
               contentText:`${result}`,buttons,headerType:4}
               prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
