@@ -40,7 +40,7 @@ const hx = require('hxz-api')
 const Exif = require('./lib/exif');
 const exif = new Exif();
 
-const { getBuffer, getGroupAdmins, getRandom, runtime, sleep } = require('./lib/myfunc')
+const { getBuffer, getGroupAdmins, getRandom, runtime, pickRandom, sleep } = require('./lib/myfunc')
 const { fetchJson, getBase64, kyun, createExif } = require('./lib/fetch')
 const { color, bgcolor } = require('./lib/color')
 const { mess } = require('./message/mess')
@@ -386,13 +386,13 @@ module.exports = nino = async (nino, mek) => {
 ~> \`\`\`attp, exif, sticker, toimg, tovideo, telesticker\`\`\`
 
 *DOWNLOAD*
-~> \`\`\`youtubedl, play, igdl, igstory, tiktokdl, mediafire, facebook, nhdl\`\`\`
+~> \`\`\`youtubedl, play, igdl, igstory, tiktokdl, mediafire, facebook, nhdl, zippydl\`\`\`
 
 *STICKER CMD*
 ~> \`\`\`setcmd, delcmd, listcmd\`\`\`
 
 *SEARCH*
-~> \`\`\`image, google, ytsearch, pinterest, ytdesc\`\`\`
+~> \`\`\`image, google, ytsearch, pinterest, ytdesc, ghsearch\`\`\`
 
 *SESSION*
 ~> \`\`\`jadibot, stopjadibot, listjadibot\`\`\`
