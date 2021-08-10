@@ -30,7 +30,6 @@ const toMs = require('ms')
 const axios = require("axios")
 const fs = require("fs-extra")
 const { promisify, util } = require('util')
-const zsExtract = require('zs-extract')
 const qrcodes = require('qrcode');
 const googleIt = require('google-it')
 const os = require('os');
@@ -386,7 +385,7 @@ module.exports = nino = async (nino, mek) => {
 ~> \`\`\`attp, exif, sticker, toimg, tovideo, telesticker\`\`\`
 
 *DOWNLOAD*
-~> \`\`\`youtubedl, play, igdl, igstory, tiktokdl, mediafire, facebook, nhdl, zippydl\`\`\`
+~> \`\`\`youtubedl, play, igdl, igstory, tiktokdl, mediafire, facebook, nhdl\`\`\`
 
 *STICKER CMD*
 ~> \`\`\`setcmd, delcmd, listcmd\`\`\`
@@ -484,29 +483,6 @@ module.exports = nino = async (nino, mek) => {
 }
 });
               break
-       case 'zippydl': 
-       case 'zippyshare':
-              try {
-	          if (!q) return reply('Masukkan link zippyshare nya!')
-              if (!q.includes('zippyshare.com')) return reply(mess.error.Iv)
-              reply(mess.wait)
-              res = await zsExtract.extract(args[0])
-              reply(`
-┏┉⌣ ┈̥-̶̯͡..̷̴✽̶┄┈┈┈┈┈┈┈┈┈┈┉┓
-┆ *ZIPPYSHARE DOWNLOAD*
-└┈┈┈┈┈┈┈┈┈┈┈⌣ ┈̥-̶̯͡..̷̴✽̶⌣ ✽̶
-
-*Data Berhasil Didapatkan!*
-*Filename:* ${res.filename}
-*Link download:* ${res.download}
-
-_*Tunggu Proses Upload Media......*_ `)
-              sendMediaURL(from, res.download, res.filename, mek)
-              } catch (e) {
-	          console.log(e)
-	          reply(String(e))
-}
-              break
        case 'ghsearch': 
        case 'githubsearch': 
        case 'searchgithub':
@@ -528,21 +504,20 @@ ${repo.open_issues} Issue${repo.description ? `
 }).join('\n\n')
             reply(str)
             break
-     case 'googleimage': 
-     case 'image': 
+     case 'image':
      case 'gimage':
-            let gis = promisify(_gis)
-            if (!q) return reply('Cari apa?')
-            reply(mess.wait)
-            for (let i = 0; i < 5; i++) {
-            results = await gis(q) || []
-            let { url, width, height } = pickRandom(results) || {}
-            if (!url) return reply('404 Not Found')
-            sendMediaURL(from, url, 'gimage', `
-Google Image : *${q}*
-- image size : ${height} x ${width}
-- link : ${url}
-`.trim(), mek, {thumbnail: Buffer.alloc(0)})
+     case 'googleimage':
+              if (args.length < 1) return reply('Apa Yang Mau Dicari?')
+              reply(mess.wait)
+              teks = args.join(' ')
+              res = await _gis(teks, google)
+              function google(error, result){
+              if (error){ return reply('_[ ! ] Error Terjari Kesalahan Atau Hasil Tidak Ditemukan_')}
+              else {
+              gugIm = result
+              random =  gugIm[Math.floor(Math.random() * gugIm.length)].url
+              sendFileFromUrl(random, image, {quoted: mek, thumbnail: Buffer.alloc(0), caption: `*Hasil Pencarian Dari :* ${teks}`})
+}
 }
              break
       case 'youtubedl':
