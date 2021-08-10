@@ -29,7 +29,7 @@ const ms = require('parse-ms')
 const toMs = require('ms')
 const axios = require("axios")
 const fs = require("fs-extra")
-const util = require('util')
+const { promisify, util } = require('util')
 const zsExtract = require('zs-extract')
 const qrcodes = require('qrcode');
 const googleIt = require('google-it')
@@ -343,7 +343,11 @@ module.exports = nino = async (nino, mek) => {
 	   return `./sticker/${name}.exif`	
 })	
 }
-       
+       function formatDate(n, locale = 'id') {
+       let d = new Date(n)
+       return d.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'
+    })
+    }
        
         colors = ['red', 'white', 'black', 'blue', 'yellow', 'green']
 		const isMedia = (type === 'imageMessage' || type === 'videoMessage')
@@ -1044,15 +1048,6 @@ a += `
                teks = `*YOUR APIKEY*\n\n➸ Ussername= ${anu.result.username}\n➸ Request= ${anu.result.requests}\n➸ Today= ${anu.result.today}\n➸ Akun Type= ${anu.result.account_type}\n➸ Expired= ${anu.result.expired}\n➸ API = https://lolhuman.herokuapp.com`
                nino.sendMessage(from, teks, text, {quoted: mek})
                break
-        case 'q': 
-               if (!m.quoted) return reply('Chat yg di reply tidak mengandung reply!')
-               try {
-	           tot = await client.serializeM(await m.getQuotedObj())
-               return tot.quoted.copyNForward(m.chat, true, {quoted: mek, thumbnail:fakeimage, sendEphemeral:true})
-               } catch (e) {
-               console.log(color(e, 'red'))
-	           reply(String(e))}
-	           break
        case 'welcome':
               if (!isGroup) return reply(mess.only.group)
               if (args.length < 1) return reply(`${prefix}welcome enable/disable`)
