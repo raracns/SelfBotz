@@ -682,15 +682,11 @@ _*Tunggu Proses Upload Media......*_`
              break
       case 'fb':
       case 'facebook':
-             if (!q) return
+             if (!q) return reply('Link Nya?')
              reply(mess.wait)
-             try {
-             anu = await fetchJson(`https://api.lolhuman.xyz/api/facebook?apikey=${setting.lolkey}&url=${args[0]}`)
-             sendMediaURL(from, anu.result)
-             } catch (e) {
-             console.log(e)
-             reply(`${e}`)
-}
+             data = await fetchJson(`https://api.lolhuman.xyz/api/facebook?apikey=${setting.lolkey}&url=${args[0]}`)
+             ini_video = await getBuffer(data.result)
+             nino.sendMessage(from, ini_video, video, { quoted: mek })
              break
       case 'twitter':
              if (!isUrl(args[0]) && !args[0].includes('twitter.com')) return reply(mess.Iv)
