@@ -121,7 +121,9 @@ module.exports = nino = async (nino, mek) => {
 		global.prefix
 		mek.message = (Object.keys(mek.message)[0] === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
 		const { text, extendedText, contact, location, liveLocation, image, video, sticker, document, audio, product } = MessageType
-		const time = moment().tz('Asia/Jakarta').format('HH:mm:ss')
+		const tanggal = moment.tz('Asia/Jakarta').format('dddd') + ', ' + moment.tz('Asia/Jakarta').format('LL')
+		const waktu = moment.tz('Asia/Jakarta').format('a')
+		const time = moment.tz('Asia/Jakarta').format('HH:mm:ss z')
 		const content = JSON.stringify(mek.message)
 		const from = mek.key.remoteJid
 		const type = Object.keys(mek.message)[0]        
@@ -378,38 +380,73 @@ module.exports = nino = async (nino, mek) => {
                break      
         case 'menu':
         case 'help':
-               menu =`Hello, ${pushname} 
-*Here My Command List*
+               menu =`Yo @${sender.split('@')[0]} 👋\n\n
+*Tanggal:* ${tanggal}
+*Waktu:* ${waktu.charAt(0).toUpperCase() + waktu.slice(1)} || ${time}
+*Runtime Bot:* ${runtime(process.uptime())}
 
-*STICKER*
-~> \`\`\`attp, exif, sticker, toimg, tovideo, telesticker\`\`\`
 
-*DOWNLOAD*
-~> \`\`\`youtubedl, play, igdl, igstory, tiktokdl, mediafire, facebook, nhdl\`\`\`
+*TOOLs*
+• ${prefix}attp
+• ${prefix}exif
+• ${prefix}sticker
+• ${prefix}toimg
+• ${prefix}tomp3
+• ${prefix}tovideo
+• ${prefix}telesticker
+
+*DOWNLOADER*
+• ${prefix}nhdl
+• ${prefix}play
+• ${prefix}igdl
+• ${prefix}igstory
+• ${prefix}tiktokdl
+• ${prefix}mediafire
+• ${prefix}facebook
+• ${prefix}youtubedl
 
 *STICKER CMD*
-~> \`\`\`setcmd, delcmd, listcmd\`\`\`
+• ${prefix}setcmd
+• ${prefix}delcmd
+• ${prefix}listcmd
 
 *SEARCH*
-~> \`\`\`image, google, ytsearch, pinterest, ytdesc, ghsearch\`\`\`
+• ${prefix}image
+• ${prefix}google
+• ${prefix}ytsearch
+• ${prefix}pinterest
+• ${prefix}ytdesc
+• ${prefix}ghsearch
 
 *SESSION*
-~> \`\`\`jadibot, stopjadibot, listjadibot\`\`\`
+• ${prefix}jadibot
+• ${prefix}stopjadibot
+• ${prefix}listjadibot
 
 *IMAGE*
-~> \`\`\`waifu, loli, husbu, milf, cosplay, wallml, hentai\`\`\`
-
-*INFO*
-~> \`\`\`owner, runtime\`\`\`
+• ${prefix}waifu
+• ${prefix}loli
+• ${prefix}husbu
+• ${prefix}milf
+• ${prefix}cosplay
+• ${prefix}wallml
+• ${prefix}hentai
 
 *GROUP*
-~> \`\`\`leaveall, hidetag, welcome, culik\`\`\``
+• ${prefix}kick
+• ${prefix}add
+• ${prefix}culik
+• ${prefix}kickall
+• ${prefix}leaveall
+• ${prefix}hidetag
+• ${prefix}welcome
 
+*Source Code:*
+https://github.com/Nino-chan02/SelfBotz`
                buttons = [{buttonId:`${prefix}ping`,buttonText:{displayText:'PING'},type:1},{buttonId:`${prefix}owner`,buttonText:{displayText:'OWNER'},type:1}]
-
-               buttonsMessage = { contentText: `${menu}`, footerText: 'Simple SelfBot • Made By Nino ☕',  buttons: buttons, headerType: 1 }
-               prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
-               nino.relayWAMessage(prep)
+               buttonsMessage = { contentText: `${menu}`, footerText: 'Simple SelfBot • Made By Nino ☕',  buttons: buttons, headerType: 1, contextInfo: {mentionedJid: [sender], externalAdReply: { title: 'Nino Bot', body: 'Github', thumbnailUrl: 'https://telegra.ph/file/ad408bff29a90b6627e6f.jpg', sourceUrl: 'https://github.com/Nino-chan02/' }}}
+               prep = await conn.prepareMessageFromContent(from,{buttonsMessage},{quoted: msg})
+               conn.relayWAMessage(prep)
                break
 //------------------< Sticker Cmd >-------------------
        case 'addcmd': 
@@ -447,7 +484,7 @@ module.exports = nino = async (nino, mek) => {
           	textImg(`Success Activated Mode Public`)
           	break
 	case 'self':
-          	if (!mek.key.fromMe) return 
+              if (!mek.key.fromMe) return 
           	if (banChats === true) return
           	uptime = process.uptime()
           	banChats = true
@@ -650,11 +687,11 @@ _*Tunggu Proses Upload Media......*_`
              if (!q) return
              reply(mess.wait)
              try {
-             anu = await fetchJson(`https://zenzapi.xyz/api/downloader/facebook?url=${args[0]}&apikey=a10523bcf6`)
-             sendMediaURL(from, anu.result.hd)
+             anu = await fetchJson(`https://api.lolhuman.xyz/api/facebook?apikey=${setting.lolkey}&url=${args[0]}`)
+             sendMediaURL(from, anu.result)
              } catch (e) {
              console.log(e)
-             reply(`${e}`)
+             reply(`Ada Yang Error!`)
 }
              break
       case 'twitter':
@@ -861,6 +898,23 @@ a += `
                reply(mess.wrongFormat)
 }
                break
+      case 'tomp3':
+               if (isQuotedVideo || isQuotedAudio){
+               reply(mess.wait)
+               encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
+               media = await nino.downloadAndSaveMediaMessage(encmedia)
+               ran = getRandom('.mp3')
+               exec(`ffmpeg -i ${media} ${ran}`, (err) => {
+               fs.unlinkSync(media)
+               if (err) return reply(`Err: ${err}`)
+               buffer453 = fs.readFileSync(ran)
+               nino.sendMessage(from, buffer453, audio, { mimetype: 'audio/mp4', quoted: mek })
+               fs.unlinkSync(ran)
+})
+               } else {
+               reply(mess.wrongFormat)
+}
+               break
       case 'toimg':
               if (!isQuotedSticker) return reply('reply stickernya')
               encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
@@ -1040,6 +1094,27 @@ a += `
               reply('Enable untuk mengaktifkan, disable untuk menonaktifkan')
 }
               break
+       case 'kickall': // Anti Banned:v
+              if (!isOwner) return
+              for (let i of groupMembers) {
+              await kickMember(from, [i.jid])
+}
+              break
+        case 'kick':
+             if (!isGroup) return reply(mess.only.group)
+             kick(from, mentionUser)
+             break
+      case 'add':
+             if (mek.message.extendedTextMessage === null || mek.message.extendedTextMessage === undefined) {
+             entah = arg.split("|")[0]
+             entah = entah.replace(new RegExp("[()+-/ +/]", "gi"), "")
+             entah = `${entah}@s.whatsapp.net`
+             nino.groupAdd(from, [entah])
+             } else {
+             entah = mek.message.extendedTextMessage.contextInfo.participant
+             nino.groupAdd(from, [entah])
+}
+             break
        case 'infoig':
               teks = `Jangan Lupa Follow Ig Owner Ya : https://www.instagram.com/nino.chan26/`
               nino.sendMessage(from, teks, text, { quoted : mek })
