@@ -929,6 +929,10 @@ a += `
       case 'runtime':
               textImg(`${runtime(process.uptime())}`)
               break
+      case 'donate': 
+       case 'donasi':
+              textImg(setting.txtDonasi)
+              break
       case 'ping':
       case 'speed':
               timestampe = speed();
