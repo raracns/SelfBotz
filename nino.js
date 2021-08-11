@@ -445,8 +445,8 @@ module.exports = nino = async (nino, mek) => {
 https://github.com/Nino-chan02/SelfBotz`
                buttons = [{buttonId:`${prefix}ping`,buttonText:{displayText:'PING'},type:1},{buttonId:`${prefix}owner`,buttonText:{displayText:'OWNER'},type:1}]
                buttonsMessage = { contentText: `${menu}`, footerText: 'Simple SelfBot • Made By Nino ☕',  buttons: buttons, headerType: 1, contextInfo: {mentionedJid: [sender], externalAdReply: { title: 'Nino Bot', body: 'Github', thumbnailUrl: 'https://telegra.ph/file/ad408bff29a90b6627e6f.jpg', sourceUrl: 'https://github.com/Nino-chan02/' }}}
-               prep = await conn.prepareMessageFromContent(from,{buttonsMessage},{quoted: msg})
-               conn.relayWAMessage(prep)
+               prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{quoted: msg})
+               nino.relayWAMessage(prep)
                break
 //------------------< Sticker Cmd >-------------------
        case 'addcmd': 
