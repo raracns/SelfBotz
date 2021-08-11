@@ -761,7 +761,7 @@ _*Tunggu Proses Upload Media......*_`
               prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
               nino.relayWAMessage(prep)
               fs.unlinkSync(`./${sender}.jpeg`)
-              break
+              break 
        case 'yts':
        case 'ytsearch':
               if (!q) return reply(mess.wrongFormat)
@@ -1058,14 +1058,14 @@ a += `
              break
       case 'listbot':
       case 'listjadibot':
-             text = '「 *LIST JADIBOT* 」\n\n'
+             let jamdibot = '「 *LIST JADIBOT* 」\n\n'
              for(let i of listjadibot) {
-             text += `*Nomor* : ${i.jid.split('@')[0]}
+             jamdibot += `*Nomor* : ${i.jid.split('@')[0]}
 *Nama* : ${i.name}
 *Device* : ${i.phone.device_manufacturer}
 *Model* : ${i.phone.device_model}\n\n`
 }
-            reply(text)
+            reply(jamdibot)
             break
 default:
 if (budy.startsWith('=>')){
