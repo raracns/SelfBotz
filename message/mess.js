@@ -1,5 +1,5 @@
 module.exports.mess = {
-	        wait: 'Loading...',
+	        wait: '*_Tunggu permintaan anda sedang diproses_*',
 			success: 'Oke Desu~',
 			wrongFormat: 'Format salah, coba liat lagi di menu',
 			error: {
