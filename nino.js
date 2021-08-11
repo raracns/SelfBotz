@@ -40,7 +40,7 @@ const hx = require('hxz-api')
 const Exif = require('./lib/exif');
 const exif = new Exif();
 
-const { getBuffer, getGroupAdmins, getRandom, runtime, pickRandom, sleep } = require('./lib/myfunc')
+const { getBuffer, getGroupAdmins, getRandom, runtime, pickRandom, clockString, sleep } = require('./lib/myfunc')
 const { fetchJson, getBase64, kyun, createExif } = require('./lib/fetch')
 const { color, bgcolor } = require('./lib/color')
 const { mess } = require('./message/mess')
@@ -384,7 +384,7 @@ module.exports = nino = async (nino, mek) => {
                menu =`Yo @${sender.split('@')[0]} 👋\n
 *Tanggal:* ${tanggal}
 *Waktu:* ${waktu.charAt(0).toUpperCase() + waktu.slice(1)} || ${time}
-*Runtime Bot:* ${runtime(process.uptime())}
+*Runtime Bot:* ${clockString(process.uptime())}
 
 *TOOLs*
 • ${prefix}attp
@@ -443,10 +443,7 @@ module.exports = nino = async (nino, mek) => {
 
 *Source Code:*
 https://github.com/Nino-chan02/SelfBotz`
-               buttons = [{buttonId:`${prefix}ping`,buttonText:{displayText:'PING'},type:1},{buttonId:`${prefix}owner`,buttonText:{displayText:'OWNER'},type:1}]
-               buttonsMessage = { contentText: `${menu}`, footerText: 'Simple SelfBot • Made By Nino ☕',  buttons: buttons, headerType: 1, contextInfo: {mentionedJid: [sender], externalAdReply: { title: 'Nino Bot', body: 'Github', thumbnailUrl: 'https://telegra.ph/file/ad408bff29a90b6627e6f.jpg', sourceUrl: 'https://github.com/Nino-chan02/' }}}
-               prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
-               nino.relayWAMessage(prep)
+               nino.sendMessage(from, menu, text, {quoted: mek, contextInfo: {mentionedJid: [sender], externalAdReply: { title: 'Nino Bot', thumbnailUrl: 'https://telegra.ph/file/ad408bff29a90b6627e6f.jpg', sourceUrl: 'https://github.com/Nino-chan02/' }}})
                break
 //------------------< Sticker Cmd >-------------------
        case 'addcmd': 
