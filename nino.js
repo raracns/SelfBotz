@@ -118,6 +118,7 @@ module.exports = nino = async (nino, mek) => {
         mek = mek.messages.all()[0]
 		if (!mek.message) return
 		if (mek.key && mek.key.remoteJid == 'status@broadcast') return
+		if (mek.key.id.startsWith('3EB0') && mek.key.id.length === 12) return
 		global.blocked
 		global.prefix
 		mek.message = (Object.keys(mek.message)[0] === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
@@ -601,12 +602,11 @@ ${repo.open_issues} Issue${repo.description ? `
              nino.sendMessage(from, pdf, document, { quoted: mek, mimetype: Mimetype.pdf, filename: `${get_result.result.title_romaji}.pdf`, thumbnail: ini_image })
              break
       case 'buttons1':
-              if (args.length < 1) return reply('Link Nya Mana?')
-              if(!isUrl(args[0]) && !args[0].includes('youtu')) return reply(mess.error.Iv)
-              teks = args.join(' ')
-              res = await y2mateA(teks)
-              sendFileFromUrl(res[0].link, document, {quoted: mek, mimetype: 'audio/mp3', filename: res[0].output})
-              break
+             await axios.get('https://api.zeks.xyz/api/ytplaymp3/2?apikey=Nyarlathotep&q=${q}')
+		    .then(res => {
+			 nino.sendMessage(from, { url: res.data.result.link }, 'audioMessage', { mimetype: 'audio/mp4', quoted: mek, contextInfo: { externalAdReply: { title: res.data.result.title, mediaType: 2, thumbnailUrl: res.data.result.thumb, mediaUrl: res.data.result.source }}})
+})
+             break
      case 'buttons2':
               if (args.length < 1) return reply('Link Nya Mana?')
               if(!isUrl(args[0]) && !args[0].includes('youtu')) return reply(mess.error.Iv)
@@ -726,59 +726,12 @@ _*Tunggu Proses Upload Media......*_`
               nino.sendMessage(from, gambar, image, { quoted: mek, thumbnail: Buffer.alloc(0) })
 })
               break
-        case 'play':
-               if (args.length < 1) return reply('Apa Yang Mau Dicari?')
-               teks = args.join(' ')
-               reply(mess.wait)
-               if (!teks.endsWith("-doc")){
-               res = await yts(`${teks}`).catch(e => {
-               reply('_[ ! ] Error Query Yang Anda Masukan Tidak Ada_')
+       case 'play':
+               await axios.get('https://api.zeks.xyz/api/ytplaymp3/2?apikey=Nyarlathotep&q=${q}')
+		      .then(res => {
+			   nino.sendMessage(from, '*Data berhasil didapatkan*\n\n_Silahkan tunggu, file media sedang dikirim mungkin butuh waktu beberapa menit_', text, { contextInfo: { externalAdReply: { title: res.data.result.title, body: 'Duration ' + res.data.result.duration + ', Size ' + res.data.result.size, thumbnailUrl: res.data.result.thumb, sourceUrl: res.data.result.link }}})
+			   nino.sendMessage(from, { url: res.data.result.link }, 'audioMessage', { mimetype: 'audio/mp4', quoted: mek, contextInfo: { externalAdReply: { title: res.data.result.title, mediaType: 2, thumbnailUrl: res.data.result.thumb, mediaUrl: res.data.result.source }}})
 })
-               reply(`.•♫•♬• Playing ${res.all[0].title} •♬•♫•.`)
-               let thumbInfo = `*Youtube Audio Downloader*
-               
-📜 Judul : ${res.all[0].title}
-🎁 Type : mp3
-📬 ID : ${res.all[0].videoId}
-🌐 Publikasi : ${res.all[0].ago}
-🎞️ Ditonton : ${res.all[0].views}
-⚖️ Durasi : ${res.all[0].timestamp}
-🎥 Channel : ${res.all[0].author.name}
-🖇️ Link : ${res.all[0].author.url}
-
-*_Harap tunggu sebentar, file akan segera dikirim_*`
-
-               sendFileFromUrl(res.all[0].image, image, {quoted: mek, thumbnail: Buffer.alloc(0), caption: thumbInfo})
-               res = await y2mateA(res.all[0].url).catch(e => {
-               reply('_[ ! ] Error Saat Memasuki Web Y2mate_')
-})
-               sendFileFromUrl(res[0].link, audio, {quoted: mek, mimetype: 'audio/mp4', filename: res[0].output})
-}
-               if (teks.endsWith("-doc")){
-               const tec = teks.split("-doc")
-               res = await yts(`${tec}`).catch(e => {
-               reply('_[ ! ] Error Query Yang Anda Masukan Tidak Ada_')
-})
-               reply(`.•♫•♬• Playing ${res.all[0].title} •♬•♫•.`)
-               let thumbInfo = `*Youtube Audio Downloader*
-               
-📜 Judul : ${res.all[0].title}
-🎁 Type : mp3
-📬 ID : ${res.all[0].videoId}
-🌐 Publikasi : ${res.all[0].ago}
-🎞️ Ditonton : ${res.all[0].views}
-⚖️ Durasi : ${res.all[0].timestamp}
-🎥 Channel : ${res.all[0].author.name}
-🖇️ Link : ${res.all[0].author.url}
-
-*_Harap tunggu sebentar, file akan segera dikirim_*`
-
-               sendFileFromUrl(res.all[0].image, image, {quoted: mek, thumbnail: Buffer.alloc(0), caption: thumbInfo})
-               res = await y2mateA(res.all[0].url).catch(e => {
-               reply('_[ ! ] Error Saat Memasuki Web Y2mate_')
-})
-               sendFileFromUrl(res[0].link, document, {quoted: mek, mimetype: 'audio/mp3', filename: res[0].output})
-}
                break
          case 'pinterest':
          case 'pin':
@@ -1073,7 +1026,7 @@ a += `
                break
        case 'welcome':
               if (!isGroup) return reply(mess.only.group)
-              if (args.length < 1) return reply(`${prefix}welcome enable/disable`)
+              if (args.length < 1) return reply(`${prefix}welcome enable`)
               if ((args[0]) === 'enable') {
               if (isWelkom) return reply('Udah aktif')
               welkom.push(from)
