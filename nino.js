@@ -389,6 +389,7 @@ module.exports = nino = async (nino, mek) => {
 *TOOLs*
 • ${prefix}attp
 • ${prefix}exif
+• ${prefix}nulis
 • ${prefix}sticker
 • ${prefix}toimg
 • ${prefix}tomp3
@@ -688,7 +689,7 @@ _*Tunggu Proses Upload Media......*_`
              sendMediaURL(from, anu.result)
              } catch (e) {
              console.log(e)
-             reply(`Ada Yang Error!`)
+             reply(`${e}`)
 }
              break
       case 'twitter':
@@ -925,6 +926,19 @@ a += `
               fs.unlinkSync(ran)
 })
               break
+       case 'nulis':
+        case 'tulis':
+               if (args.length < 1) return reply('Yang mau di tulis apaan?')
+               teks = args.join(' ')
+               reply(mess.wait)
+               nulis = encodeURIComponent(teks)
+               res = await axios.get(`https://dt-04.herokuapp.com/nulis?text=${nulis}`)
+               if (res.data.error) return reply(res.data.error)
+               buff = Buffer.from(res.data.result.split(',')[1], 'base64')
+               nino.sendMessage(from, buff, image, {quoted: mek, caption: mess.success}).catch(e => {
+               return reply('_[ ! ] Error Gagal Dalam Mendownload Dan Mengirim File_')
+})
+               break
 //------------------< Ingfo Bot >-------------------
       case 'runtime':
               textImg(`${runtime(process.uptime())}`)
@@ -1027,24 +1041,6 @@ a += `
                nino.sendMessage(from, buffer, image, { quoted: mek, caption: `Profile Picture of @${mberr.split("@")[0]}`, contextInfo: { "mentionedJid": [mberr] }})
 }
                break
-        case 'get':
-        case 'fetch': //ambil dari nuru
-               if (!/^https?:\/\//.test(q)) return reply('Awali *URL* dengan http:// atau https://')
-               res = await fetch(q)
-               if (res.headers.get('content-length') > 100 * 1024 * 1024 * 1024) {
-               delete res
-               throw `Content-Length: ${res.headers.get('content-length')}`
-}
-               if (!/text|json/.test(res.headers.get('content-type'))) return sendMediaURL(from, q)
-               txtx = await res.buffer()
-               try {
-               txtx = util.format(JSON.parse(txtx+''))
-               } catch (e) {
-               txtx = txtx + ''
-               } finally {
-               reply(txtx.slice(0, 65536) + '')
-}
-               break
         case 'searchmsg':  //by ANU TEAM
                if (args.length < 1) return reply(`Pesan Yang Mau Dicari Apaan?\nContoh : ${prefix + command} halo|10`)
                teks = arg
@@ -1130,19 +1126,37 @@ a += `
               jadibot(reply,nino,from)
               break
        case 'stopjadibot':
-             stopjadibot(reply)
-             break
-      case 'listbot':
-      case 'listjadibot':
-             let jamdibot = '「 *LIST JADIBOT* 」\n\n'
-             for(let i of listjadibot) {
-             jamdibot += `*Nomor* : ${i.jid.split('@')[0]}
+              stopjadibot(reply)
+              break
+       case 'listbot':
+       case 'listjadibot':
+              let jamdibot = '「 *LIST JADIBOT* 」\n\n'
+              for(let i of listjadibot) {
+              jamdibot += `*Nomor* : ${i.jid.split('@')[0]}
 *Nama* : ${i.name}
 *Device* : ${i.phone.device_manufacturer}
 *Model* : ${i.phone.device_model}\n\n`
 }
-            reply(jamdibot)
-            break
+              reply(jamdibot)
+              break
+        case 'get':
+        case 'fetch': //ambil dari nuru
+               if (!/^https?:\/\//.test(q)) return reply('Awali *URL* dengan http:// atau https://')
+               res = await fetch(q)
+               if (res.headers.get('content-length') > 100 * 1024 * 1024 * 1024) {
+               delete res
+               throw `Content-Length: ${res.headers.get('content-length')}`
+}
+               if (!/text|json/.test(res.headers.get('content-type'))) return sendMediaURL(from, q)
+               txtx = await res.buffer()
+               try {
+               txtx = util.format(JSON.parse(txtx+''))
+               } catch (e) {
+               txtx = txtx + ''
+               } finally {
+               reply(txtx.slice(0, 65536) + '')
+}
+               break
 default:
 if (budy.startsWith('=>')){
 if (!isOwner) return
