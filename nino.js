@@ -370,8 +370,8 @@ module.exports = nino = async (nino, mek) => {
             if (!mek.key.fromMe && banChats === true) return
             switch(command){
            
-        case 'owner':
-        case 'creator':
+           case 'owner':
+           case 'creator':
                sendKontak(from, `${owner}`, `${ownerName}`, 'Sibukk!!')
                await sleep(1000)
                txtt =`Hai Kak ${pushname}\nItu Ownerku, Mau tau soal apa ya?`
@@ -380,8 +380,8 @@ module.exports = nino = async (nino, mek) => {
                prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
                nino.relayWAMessage(prep)
                break      
-        case 'menu':
-        case 'help':
+           case 'menu':
+           case 'help':
                menu =`Yo @${sender.split('@')[0]} 👋\n
 *Tanggal:* ${tanggal}
 *Waktu:* ${waktu.charAt(0).toUpperCase() + waktu.slice(1)} || ${time}
@@ -448,8 +448,8 @@ https://github.com/Nino-chan02/SelfBotz`
                nino.sendMessage(from, menu, text, {quoted: mek, contextInfo: {mentionedJid: [sender], externalAdReply: { title: 'Nino Bot', thumbnailUrl: 'https://telegra.ph/file/ad408bff29a90b6627e6f.jpg', sourceUrl: 'https://github.com/Nino-chan02/' }}})
                break
 //------------------< Sticker Cmd >-------------------
-       case 'addcmd': 
-       case 'setcmd':
+           case 'addcmd': 
+           case 'setcmd':
               if (isQuotedSticker) {
               if (!q) return reply(`Penggunaan : ${command} cmdnya dan tag stickernya`)
               var kodenya = mek.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.fileSha256.toString('base64')
@@ -462,7 +462,7 @@ https://github.com/Nino-chan02/SelfBotz`
        case 'delcmd':
               if (!isQuotedSticker) return reply(`Penggunaan : ${command} tagsticker`)
               var kodenya = mek.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage.fileSha256.toString('base64')
-            _scommand.splice(getCommandPosition(kodenya), 1)
+             _scommand.splice(getCommandPosition(kodenya), 1)
               fs.writeFileSync('./database/scommand.json', JSON.stringify(_scommand))
               textImg("Done!")
               break
@@ -477,21 +477,21 @@ https://github.com/Nino-chan02/SelfBotz`
               break
 //------------------< Public/Self >-------------------
         case 'public':
-          	if (!mek.key.fromMe) return 
-          	if (banChats === false) return 
-          	banChats = false
-          	textImg(`Success Activated Mode Public`)
-          	break
-	case 'self':
+        	  if (!mek.key.fromMe) return 
+              if (banChats === false) return 
+              banChats = false
+              textImg(`Success Activated Mode Public`)
+              break
+	      case 'self':
               if (!mek.key.fromMe) return 
-          	if (banChats === true) return
-          	uptime = process.uptime()
-          	banChats = true
-          	textImg(`Success Activated Mode Self`)
-          	break
+              if (banChats === true) return
+        	  uptime = process.uptime()
+        	  banChats = true
+              textImg(`Success Activated Mode Self`)
+              break
 //------------------< Downloader/Search/Anime >-------------------
-       case 'igdl':
-       case 'instagram':
+          case 'igdl':
+          case 'instagram':
               try {
               if (!isUrl(q)) return reply('Linknya?')
               res = await axios.get(`https://api.lolhuman.xyz/api/instagram2?apikey=${setting.lolkey}&url=${args[0]}`)
@@ -504,7 +504,7 @@ https://github.com/Nino-chan02/SelfBotz`
               reply(String(e))
 }
               break
-       case 'igstory': 
+          case 'igstory': 
               if(!q) return reply('Usernamenya?')
               hx.igstory(q)
              .then(async result => {
@@ -519,15 +519,15 @@ https://github.com/Nino-chan02/SelfBotz`
 }
 });
               break
-       case 'ghsearch': 
-       case 'githubsearch': 
-       case 'searchgithub':
-             if (!q) return reply('Cari apa?')
-             res = await fetch('https://api.github.com/search/repositories?q='+q)
-             json = await res.json()
-             if (res.status !== 200) throw json
-             str = json.items.map((repo, index) => {
-             return `
+          case 'ghsearch': 
+          case 'githubsearch': 
+          case 'searchgithub':
+              if (!q) return reply('Cari apa?')
+              res = await fetch('https://api.github.com/search/repositories?q='+q)
+              json = await res.json()
+              if (res.status !== 200) throw json
+              str = json.items.map((repo, index) => {
+              return `
 ${1 + index}. *${repo.full_name}*${repo.fork ? ' (fork)' : ''}
 _${repo.html_url}_
 _Dibuat pada *${formatDate(repo.created_at)}*_
@@ -538,11 +538,11 @@ ${repo.open_issues} Issue${repo.description ? `
 *Clone:* \`\`\`$ git clone ${repo.clone_url}\`\`\`
 `.trim()
 }).join('\n\n')
-            reply(str)
-            break
-     case 'image':
-     case 'gimage':
-     case 'googleimage':
+              reply(str)
+              break
+          case 'image':
+          case 'gimage':
+          case 'googleimage':
               if (args.length < 1) return reply('Apa Yang Mau Dicari?')
               reply(mess.wait)
               teks = args.join(' ')
@@ -555,19 +555,19 @@ ${repo.open_issues} Issue${repo.description ? `
               sendFileFromUrl(random, image, {quoted: mek, caption: `*Hasil Pencarian Dari :* ${teks}`})
 }
 }
-             break
-      case 'youtubedl':
-             if (args.length < 1) return reply('Link Nya Mana?')
-             if(!isUrl(args[0]) && !args[0].includes('youtu')) return reply(mess.error.Iv)
-             teks = args.join(' ')
-             res = await y2mateA(teks).catch(e => {
-             reply('_[ ! ] Error Gagal Dalam Memasuki Web Y2mate_')
+              break
+          case 'youtubedl':
+              if (args.length < 1) return reply('Link Nya Mana?')
+              if(!isUrl(args[0]) && !args[0].includes('youtu')) return reply(mess.error.Iv)
+              teks = args.join(' ')
+              res = await y2mateA(teks).catch(e => {
+              reply('_[ ! ] Error Gagal Dalam Memasuki Web Y2mate_')
 })
-             result = `*Youtube Downloader*
+              result = `*Youtube Downloader*
              
 📜 Title : ${res[0].judul}
 🎁 Type : mp3/mp4
-⚖️ Durasi : ${res[0].size}`
+🚀 Durasi : ${res[0].size}`
               buttons = [{buttonId: `${prefix}buttons2 ${q}`,buttonText:{displayText: `▶️ Video`},type:1},{buttonId:`${prefix}buttons1 ${q}`,buttonText:{displayText:'🎵 Audio'},type:1}]
               fs.writeFileSync(`./ytmp.jpeg`, await getBuffer(res[0].thumb))
               imageMsg = ( await nino.prepareMessage(from, fs.readFileSync(`./ytmp.jpeg`), 'imageMessage', {thumbnail: Buffer.alloc(0)})).message.imageMessage
@@ -577,7 +577,7 @@ ${repo.open_issues} Issue${repo.description ? `
               nino.relayWAMessage(prep)
               fs.unlinkSync(`./ytmp.jpeg`)
               break
-       case 'tiktokdl':
+          case 'tiktokdl':
               if (!q) return reply('Linknya?')
               if (!q.includes('tiktok')) return reply(mess.error.Iv)
               data = await fetchJson(`https://api.lolhuman.xyz/api/tiktok?apikey=${setting.lolkey}&url=${q}`)
@@ -591,43 +591,43 @@ ${repo.open_issues} Issue${repo.description ? `
               nino.relayWAMessage(prep)
               fs.unlinkSync(`./${sender}.jpeg`)
               break
-       case 'nhentaipdf':
-       case 'nhdl':
-             if (!q) return reply('kodenya?')
-             reply('Please wait, data is being processed')
-             get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentai/${q}?apikey=${setting.lolkey}`)
-             ini_image = await getBuffer(get_result.result.image[0])
-             data = await fetchJson(`https://api.lolhuman.xyz/api/nhentaipdf/${q}?apikey=${setting.lolkey}`)
-             pdf = await getBuffer(data.result)
-             nino.sendMessage(from, pdf, document, { quoted: mek, mimetype: Mimetype.pdf, filename: `${get_result.result.title_romaji}.pdf`, thumbnail: ini_image })
-             break
-      case 'buttons1':
-             await axios.get(`https://api.zeks.xyz/api/ytplaymp3/2?apikey=Nyarlathotep&q=${q}`)
-		    .then(res => {
-			 nino.sendMessage(from, { url: res.data.result.link }, 'audioMessage', { mimetype: 'audio/mp4', quoted: mek, contextInfo: { externalAdReply: { title: res.data.result.title, mediaType: 2, thumbnailUrl: res.data.result.thumb, mediaUrl: res.data.result.source }}})
+          case 'nhentaipdf':
+          case 'nhdl':
+              if (!q) return reply('kodenya?')
+              reply('Please wait, data is being processed')
+              get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentai/${q}?apikey=${setting.lolkey}`)
+              ini_image = await getBuffer(get_result.result.image[0])
+              data = await fetchJson(`https://api.lolhuman.xyz/api/nhentaipdf/${q}?apikey=${setting.lolkey}`)
+              pdf = await getBuffer(data.result)
+              nino.sendMessage(from, pdf, document, { quoted: mek, mimetype: Mimetype.pdf, filename: `${get_result.result.title_romaji}.pdf`, thumbnail: ini_image })
+              break
+          case 'buttons1':
+              await axios.get(`https://api.zeks.xyz/api/ytplaymp3/2?apikey=Nyarlathotep&q=${q}`)
+		     .then(res => {
+			  nino.sendMessage(from, { url: res.data.result.link }, 'audioMessage', { mimetype: 'audio/mp4', quoted: mek, contextInfo: { externalAdReply: { title: res.data.result.title, mediaType: 2, thumbnailUrl: res.data.result.thumb, mediaUrl: res.data.result.source }}})
 })
-             break
-     case 'buttons2':
+              break
+          case 'buttons2':
               if (args.length < 1) return reply('Link Nya Mana?')
               if(!isUrl(args[0]) && !args[0].includes('youtu')) return reply(mess.error.Iv)
               teks = args.join(' ')
               res = await y2mateV(teks)
               sendFileFromUrl(res[0].link, video, {quoted: mek, mimetype: 'video/mp4', filename: res[0].output})
               break
-       case 'buttons3': 
-             if (!q) return reply('Linknya?')
-             if (!q.includes('tiktok')) return reply(mess.error.Iv)
-             data = await fetchJson(`https://api.lolhuman.xyz/api/tiktok?apikey=${setting.lolkey}&url=${q}`)
-             ini_video = await getBuffer(data.result.link)
-             nino.sendMessage(from, ini_video, video, { quoted: mek })
-             break
-      case 'buttons4': 
-             if (!q) return reply('Linknya?')
-             if (!q.includes('tiktok')) return reply(mess.error.Iv)
-             data = await getBuffer(`https://api.lolhuman.xyz/api/tiktokmusic?apikey=${setting.lolkey}&url=${args[0]}`)
-             nino.sendMessage(from, data, audio, { quoted: mek })
-             break
-      case 'buttons5':
+          case 'buttons3': 
+              if (!q) return reply('Linknya?')
+              if (!q.includes('tiktok')) return reply(mess.error.Iv)
+              data = await fetchJson(`https://api.lolhuman.xyz/api/tiktok?apikey=${setting.lolkey}&url=${q}`)
+              ini_video = await getBuffer(data.result.link)
+              nino.sendMessage(from, ini_video, video, { quoted: mek })
+              break
+          case 'buttons4': 
+              if (!q) return reply('Linknya?')
+              if (!q.includes('tiktok')) return reply(mess.error.Iv)
+              data = await getBuffer(`https://api.lolhuman.xyz/api/tiktokmusic?apikey=${setting.lolkey}&url=${args[0]}`)
+              nino.sendMessage(from, data, audio, { quoted: mek })
+              break
+          case 'buttons5':
               const mathdare = dare[Math.floor(Math.random() * (dare.length))]
               result = `${mathdare}`
               buttons = [{buttonId: `${prefix}buttons6`,buttonText:{displayText: 'Truth'},type:1},{buttonId:`${prefix}buttons5`,buttonText:{displayText:'Dare'},type:1},{buttonId:`${prefix}tod`,buttonText:{displayText:'Tod'},type:1}]
@@ -635,7 +635,7 @@ ${repo.open_issues} Issue${repo.description ? `
               prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
               nino.relayWAMessage(prep)
               break
-       case 'buttons6':
+          case 'buttons6':
               const randomtruth = truth[Math.floor(Math.random() * truth.length)]
               result = `${randomtruth}`
               buttons = [{buttonId: `${prefix}buttons6`,buttonText:{displayText: 'Truth'},type:1},{buttonId:`${prefix}buttons5`,buttonText:{displayText:'Dare'},type:1},{buttonId:`${prefix}tod`,buttonText:{displayText:'Tod'},type:1}]
@@ -643,14 +643,14 @@ ${repo.open_issues} Issue${repo.description ? `
               prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
               nino.relayWAMessage(prep)
               break
-      case 'tod':
+          case 'tod':
               result =`*Truth Or Dare*\nPemain diberi pilihan antara menjawab pertanyaan dengan jujur, atau melakukan tantangan yang diberikan`
               buttons = [{buttonId: `${prefix}buttons6`,buttonText:{displayText: 'Truth'},type:1},{buttonId:`${prefix}buttons5`,buttonText:{displayText:'Dare'},type:1},{buttonId:`${prefix}tod`,buttonText:{displayText:'Tod'},type:1}]
               buttonsMessage = { contentText: `${result}`, footerText: 'Kebenaran atau tantangan?', buttons: buttons, headerType: 1 }
               prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{})
               nino.relayWAMessage(prep)
               break
-      case 'google':
+          case 'google':
               if (!q) return reply(mess.wrongFormat)
               ss = await getBuffer(`https://api.apiflash.com/v1/urltoimage?access_key=f3fce33fa6804c0b97c897b3bd2ec7a8&url=https://google.com/search?q=${q}`)
               if(q == undefined || q == ' ') return reply(`*Hasil Pencarian : ${q}* tidak ditemukan`)
@@ -659,57 +659,57 @@ ${repo.open_issues} Issue${repo.description ? `
               for (let i = 0; i < results.length; i++) {
               vars +=  `\n═════════════════\n\n*Judul:* ${results[i].title}\n\n*Deskripsi:* ${results[i].snippet}\n\n*Link:* ${results[i].link}\n\n`
 }
-               nino.sendMessage(from, ss, image, {caption: vars, quoted : mek, thumbnail: Buffer.alloc(0) })
-               }).catch(e => {
-               console.log(e)
-               reply(`${e}`)
+              nino.sendMessage(from, ss, image, {caption: vars, quoted : mek, thumbnail: Buffer.alloc(0) })
+              }).catch(e => {
+              console.log(e)
+              reply(`${e}`)
 })
-               break
-        case 'mediafire':
-               if (args.length < 1) return reply('Link Nya Mana? ')
-               if(!isUrl(args[0]) && !args[0].includes('mediafire')) return reply(mess.error.Iv)
-               teks = args.join(' ')
-               res = await mediafireDl(teks)
-               result = `*MediaFire Downloader*
+              break
+          case 'mediafire':
+              if (args.length < 1) return reply('Link Nya Mana? ')
+              if(!isUrl(args[0]) && !args[0].includes('mediafire')) return reply(mess.error.Iv)
+              teks = args.join(' ')
+              res = await mediafireDl(teks)
+              result = `*MediaFire Downloader*
                
 📜 Nama : ${res[0].nama}
-💡 Ukuran : ${res[0].size}
+🚀 Ukuran : ${res[0].size}
 🖇️ Link : ${res[0].link}
 
 _*Tunggu Proses Upload Media......*_`
-             reply(result)
-             sendFileFromUrl(res[0].link, document, {mimetype: res[0].mime, filename: res[0].nama, quoted: mek})
-             break
-      case 'fb':
-      case 'facebook':
-             if (!q) return reply('Link Nya?')
-             reply(mess.wait)
-             data = await fetchJson(`https://api.lolhuman.xyz/api/facebook?apikey=${setting.lolkey}&url=${args[0]}`)
-             ini_video = await getBuffer(data.result)
-             nino.sendMessage(from, ini_video, video, { quoted: mek })
-             break
-      case 'twitter':
-             if (!isUrl(args[0]) && !args[0].includes('twitter.com')) return reply(mess.Iv)
-             if (!q) return reply('Linknya?')
-             ten = args[0]
-             var res = await twitterGetUrl(`${ten}`)
-            .then(g => {
-             ren = `${g.download[2].url}`
-             sendMediaURL(from,ren,'Done')
+              reply(result)
+              sendFileFromUrl(res[0].link, document, {mimetype: res[0].mime, filename: res[0].nama, quoted: mek})
+              break
+          case 'fb':
+          case 'facebook':
+              if (!q) return reply('Link Nya?')
+              reply(mess.wait)
+              data = await fetchJson(`https://api.lolhuman.xyz/api/facebook?apikey=${setting.lolkey}&url=${args[0]}`)
+              ini_video = await getBuffer(data.result)
+              nino.sendMessage(from, ini_video, video, { quoted: mek })
+              break
+          case 'twitter':
+              if (!isUrl(args[0]) && !args[0].includes('twitter.com')) return reply(mess.Iv)
+              if (!q) return reply('Linknya?')
+              ten = args[0]
+              var res = await twitterGetUrl(`${ten}`)
+             .then(g => {
+              ren = `${g.download[2].url}`
+              sendMediaURL(from,ren,'Done')
 })
-             break
-      case 'ytdesc':
-             if (args.length < 1) return reply('Video/Link Yt Nya Mana? ')
-             teks = args.join(' ')
-             res = await yts(teks)
-             reply(res.all[0].description)
-             break
-       case 'waifu':
-       case 'loli':
-       case 'husbu':
-       case 'milf':
-       case 'cosplay':
-       case 'wallml':
+              break
+          case 'ytdesc':
+              if (args.length < 1) return reply('Video/Link Yt Nya Mana? ')
+              teks = args.join(' ')
+              res = await yts(teks)
+              reply(res.all[0].description)
+              break
+          case 'waifu':
+          case 'loli':
+          case 'husbu':
+          case 'milf':
+          case 'cosplay':
+          case 'wallml':
               let wipu = (await axios.get(`https://raw.githubusercontent.com/Arya-was/endak-tau/main/${command}.json`)).data
               let wipi = wipu[Math.floor(Math.random() * (wipu.length))]
               fs.writeFileSync(`./${sender}.jpeg`, await getBuffer(wipi))
@@ -721,20 +721,20 @@ _*Tunggu Proses Upload Media......*_`
               nino.relayWAMessage(prep)
               fs.unlinkSync(`./${sender}.jpeg`)
               break
-       case 'hentai':
+          case 'hentai':
               getBuffer(`https://api.lolhuman.xyz/api/random/nsfw/hentai?apikey=${setting.lolkey}`).then((gambar) => {
               nino.sendMessage(from, gambar, image, { quoted: mek, thumbnail: Buffer.alloc(0) })
 })
               break
-       case 'play':
-               await axios.get(`https://api.zeks.xyz/api/ytplaymp3/2?apikey=Nyarlathotep&q=${q}`)
-		      .then(res => {
-			   nino.sendMessage(from, '*Data berhasil didapatkan*\n\n_Silahkan tunggu, file media sedang dikirim mungkin butuh waktu beberapa menit_', text, { contextInfo: { externalAdReply: { title: res.data.result.title, body: 'Duration ' + res.data.result.duration + ', Size ' + res.data.result.size, thumbnailUrl: res.data.result.thumb, sourceUrl: res.data.result.link }}})
-			   nino.sendMessage(from, { url: res.data.result.link }, 'audioMessage', { mimetype: 'audio/mp4', quoted: mek, contextInfo: { externalAdReply: { title: res.data.result.title, mediaType: 2, thumbnailUrl: res.data.result.thumb, mediaUrl: res.data.result.source }}})
+          case 'play':
+              await axios.get(`https://api.zeks.xyz/api/ytplaymp3/2?apikey=Nyarlathotep&q=${q}`)
+		     .then(res => {
+    		  nino.sendMessage(from, '*Data berhasil didapatkan*\n\n_Silahkan tunggu, file media sedang dikirim mungkin butuh waktu beberapa menit_', text, { contextInfo: { externalAdReply: { title: res.data.result.title, body: 'Duration ' + res.data.result.duration + ', Size ' + res.data.result.size, thumbnailUrl: res.data.result.thumb, sourceUrl: res.data.result.link }}})
+			  nino.sendMessage(from, { url: res.data.result.link }, 'audioMessage', { mimetype: 'audio/mp4', quoted: mek, contextInfo: { externalAdReply: { title: res.data.result.title, mediaType: 2, thumbnailUrl: res.data.result.thumb, mediaUrl: res.data.result.source }}})
 })
-               break
-         case 'pinterest':
-         case 'pin':
+              break
+          case 'pinterest':
+          case 'pin':
               if (args.length < 1) return reply(`${prefix}Nakano Nino`)
               data = await fetchJson(`https://lolhuman.herokuapp.com/api/pinterest?apikey=${setting.lolkey}&query=${q}`)
               buttons = [{buttonId: `${prefix + command} ${q}`,buttonText:{displayText: `➡️Next`},type:1}]
@@ -746,42 +746,34 @@ _*Tunggu Proses Upload Media......*_`
               nino.relayWAMessage(prep)
               fs.unlinkSync(`./${sender}.jpeg`)
               break 
-       case 'yts':
-       case 'ytsearch':
-              if (!q) return reply(mess.wrongFormat)
+          case 'yts': 
+          case 'ytsearch': 
+			  if (!q) return reply(`Penggunaan ${command} query`)
+              let { videos } = await yts(q)
+			  let length = videos.length < 10 ? videos.length : 10
+			  let capt = ``
+			  for (let i = 0; i < length; i++) {
+					capt += `*${videos[i].title}* (${videos[i].url})\n`
+					capt += `*By:* ${videos[i].author.name}\n`
+					capt += `*Duration:* ${videos[i].timestamp}\n`
+					capt += `*Uploaded:* ${videos[i].ago}\n`
+					capt += `=`.repeat(24) + `\n`
+				}
+			  nino.sendMessage(from, capt.trim(), text, { contextInfo: { externalAdReply: { title: videos[0].title, body: videos[0].description, mediaType: 2, thumbnailUrl: videos[0].image, mediaUrl: videos[0].url }}})
+			  break
+          case 'tourl':
+              if ((isMedia && !mek.message.videoMessage || isQuotedImage || isQuotedVideo ) && args.length == 0) {
               reply(mess.wait)
-              try {
-              res = await yts(q)
-              a = `*Youtube Search 🔎*\n`
-for (let i of res.all) {
-a += `
-📜 Title : ${i.title}
-🎞️ Views : ${i.views}
-🌐 Upload : ${i.ago}
-⏱️ Durasi : ${i.timestamp}
-🎥 Channel : ${i.author.name}
-🖇️ Link : ${i.url}\n`
+              boij = isQuotedImage || isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
+              owgi = await nino.downloadMediaMessage(boij)
+              res = await uploadImages(owgi)
+              reply(res)
+              } else {
+              reply('kirim/reply gambar/video')
 }
-               b = a.trim()
-               sendFileFromUrl(res.all[0].image, image, {quoted: mek, thumbnail: Buffer.alloc(0), caption: b})
-               } catch (e) {
-               console.log(e)
-               reply(`${e}`)
-}
-               break
-       case 'tourl':
-               if ((isMedia && !mek.message.videoMessage || isQuotedImage || isQuotedVideo ) && args.length == 0) {
-               reply(mess.wait)
-               boij = isQuotedImage || isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
-               owgi = await nino.downloadMediaMessage(boij)
-               res = await uploadImages(owgi)
-               reply(res)
-               } else {
-               reply('kirim/reply gambar/video')
-}
-               break
-       case 'telesticker': 
-       case 'telestiker':
+              break
+          case 'telesticker': 
+          case 'telestiker':
               if (!q) return reply(`Example: ${prefix + command} https://t.me/addstickers/LINE_Menhera_chan_ENG`)
               reply(mess.wait)
               ini_url = await fetchJson(`https://api.lolhuman.xyz/api/telestick?apikey=${setting.lolkey}&url=${args[0]}`)
@@ -792,17 +784,17 @@ a += `
               nino.sendMessage(from, ini_buffer, sticker, {})
 }
               break
-       case 'attp':
+          case 'attp':
               if (args.length == 0) return reply(`Example: ${prefix + command} Nino`)
               buffer = await getBuffer(`https://api.xteam.xyz/attp?file&text=${encodeURI(q)}`)
               nino.sendMessage(from, buffer, sticker, { quoted: mek })
               break
-       case 'sticker':
-       case 'stiker':
-       case 's':
-       case 'stickergif':
-       case 'stikergif':
-       case 'sgif':
+          case 'sticker':
+          case 'stiker':
+          case 's':
+          case 'stickergif':
+          case 'stikergif':
+          case 'sgif':
               if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
               encmediat = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
               mediat = await nino.downloadAndSaveMediaMessage(encmediat)
@@ -833,36 +825,36 @@ a += `
               reply(`Kirim gambar dengan caption ${prefix}sticker\nDurasi Sticker Video 1-9 Detik`)
 }
               break
-      case 'tovideo':
-               if ((isMedia && !mek.message.videoMessage || isQuotedSticker) && args.length == 0) {
-               encmediaaa = isQuotedSticker ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
-               mediaaa = await nino.downloadAndSaveMediaMessage(encmediaaa)
-               a = await webp2gifFile(mediaaa)
-               mp4 = await getBuffer(a.result)
-               nino.sendMessage(from, mp4, video, {mimetype: 'video/mp4', quoted: mek, caption: mess.success})
-               fs.unlinkSync(mediaaa)
-               } else {
-               reply(mess.wrongFormat)
+          case 'tovideo':
+              if ((isMedia && !mek.message.videoMessage || isQuotedSticker) && args.length == 0) {
+              encmediaaa = isQuotedSticker ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
+              mediaaa = await nino.downloadAndSaveMediaMessage(encmediaaa)
+              a = await webp2gifFile(mediaaa)
+              mp4 = await getBuffer(a.result)
+              nino.sendMessage(from, mp4, video, {mimetype: 'video/mp4', quoted: mek, caption: mess.success})
+              fs.unlinkSync(mediaaa)
+              } else {
+              reply(mess.wrongFormat)
 }
-               break
-      case 'tomp3':
-               if (isQuotedVideo || isQuotedAudio){
-               reply(mess.wait)
-               encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
-               media = await nino.downloadAndSaveMediaMessage(encmedia)
-               ran = getRandom('.mp3')
-               exec(`ffmpeg -i ${media} ${ran}`, (err) => {
-               fs.unlinkSync(media)
-               if (err) return reply(`Err: ${err}`)
-               buffer453 = fs.readFileSync(ran)
-               nino.sendMessage(from, buffer453, audio, { mimetype: 'audio/mp4', quoted: mek })
-               fs.unlinkSync(ran)
+              break
+          case 'tomp3':
+              if (isQuotedVideo || isQuotedAudio){
+              reply(mess.wait)
+              encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
+              media = await nino.downloadAndSaveMediaMessage(encmedia)
+              ran = getRandom('.mp3')
+              exec(`ffmpeg -i ${media} ${ran}`, (err) => {
+              fs.unlinkSync(media)
+              if (err) return reply(`Err: ${err}`)
+              buffer453 = fs.readFileSync(ran)
+              nino.sendMessage(from, buffer453, audio, { mimetype: 'audio/mp4', quoted: mek })
+              fs.unlinkSync(ran)
 })
-               } else {
-               reply(mess.wrongFormat)
+              } else {
+              reply(mess.wrongFormat)
 }
-               break
-      case 'toimg':
+              break
+          case 'toimg':
               if (!isQuotedSticker) return reply('reply stickernya')
               encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo
               media = await nino.downloadAndSaveMediaMessage(encmedia)
@@ -875,75 +867,75 @@ a += `
               fs.unlinkSync(ran)
 })
               break
-       case 'nulis':
-        case 'tulis':
-               if (args.length < 1) return reply('Yang mau di tulis apaan?')
-               teks = args.join(' ')
-               reply(mess.wait)
-               nulis = encodeURIComponent(teks)
-               res = await axios.get(`https://dt-04.herokuapp.com/nulis?text=${nulis}`)
-               if (res.data.error) return reply(res.data.error)
-               buff = Buffer.from(res.data.result.split(',')[1], 'base64')
-               nino.sendMessage(from, buff, image, {quoted: mek, caption: mess.success}).catch(e => {
-               return reply('_[ ! ] Error Gagal Dalam Mendownload Dan Mengirim File_')
+          case 'nulis':
+          case 'tulis':
+              if (args.length < 1) return reply('Yang mau di tulis apaan?')
+              teks = args.join(' ')
+              reply(mess.wait)
+              nulis = encodeURIComponent(teks)
+              res = await axios.get(`https://dt-04.herokuapp.com/nulis?text=${nulis}`)
+              if (res.data.error) return reply(res.data.error)
+              buff = Buffer.from(res.data.result.split(',')[1], 'base64')
+              nino.sendMessage(from, buff, image, {quoted: mek, caption: mess.success}).catch(e => {
+              return reply('_[ ! ] Error Gagal Dalam Mendownload Dan Mengirim File_')
 })
-               break
+              break
 //------------------< Ingfo Bot >-------------------
-      case 'runtime':
+          case 'runtime':
               textImg(`${runtime(process.uptime())}`)
               break
-      case 'donate': 
-       case 'donasi':
+          case 'donate': 
+          case 'donasi':
               textImg(setting.txtDonasi)
               break
-      case 'ping':
-      case 'speed':
+          case 'ping':
+          case 'speed':
               timestampe = speed();
               latensie = speed() - timestampe
               reply(`「 *𝙎𝙋𝙀𝙀𝘿 𝙏𝙀𝙎𝙏* 」\nMerespon dalam ${latensie.toFixed(4)} Sec 💬`)
               break
-      case 'exif':
-             if (!isOwner) return  reply(mess.only.owner)
-             if (!q) return reply(mess.wrongFormat)
-             if (!arg.split('|')) return reply(`Penggunaan ${prefix}exif nama|author`)
-             exif.create(arg.split('|')[0], arg.split('|')[1])
-             reply('sukses')
-             break	
-      case 'join': 
-             if (!q) return reply('Linknya?')
-             if (!isOwner) return reply(mess.only.owner)
-             if (!isUrl(args[0]) && !args[0].includes('https://chat.whatsapp.com/')) return reply('Linknya Invalid Tod')
-             link = args[0].replace('https://chat.whatsapp.com/','')
-             fak = nino.query({ json: ['action', 'invite', link],
-             expect200: true })
-             reply('Berhasil Masuk Grup')
-             break
-      case 'term':
-             if (!isOwner) return
-             if (!q) return
-             exec(q, (err, stdout) => {
-             if (err) return reply(`${err}`)
-             if (stdout) {
-             reply(stdout)
+          case 'exif':
+              if (!isOwner) return  reply(mess.only.owner)
+              if (!q) return reply(mess.wrongFormat)
+              if (!arg.split('|')) return reply(`Penggunaan ${prefix}exif nama|author`)
+              exif.create(arg.split('|')[0], arg.split('|')[1])
+              reply('sukses')
+              break	
+          case 'join': 
+              if (!q) return reply('Linknya?')
+              if (!isOwner) return reply(mess.only.owner)
+              if (!isUrl(args[0]) && !args[0].includes('https://chat.whatsapp.com/')) return reply('Linknya Invalid Tod')
+              link = args[0].replace('https://chat.whatsapp.com/','')
+              fak = nino.query({ json: ['action', 'invite', link],
+              expect200: true })
+              reply('Berhasil Masuk Grup')
+              break
+          case 'term':
+              if (!isOwner) return
+              if (!q) return
+              exec(q, (err, stdout) => {
+              if (err) return reply(`${err}`)
+              if (stdout) {
+              reply(stdout)
 }
 })
-             break 
-      case 'shutdown':
-             if (!isOwner) return 
-             reply(`Bye...`)
-             await sleep(3000)
-             process.exit()
-             break
-      case 'leaveall':
-             if (!isOwner) return  
-             let totalgroup = nino.chats.array.filter(u => u.jid.endsWith('@g.us')).map(u => u.jid)
-             for (let id of totalgroup) {
-             sendMess(id, 'Byee', null)
-             await sleep(3000)
-             nino.groupLeave(id)
+              break 
+          case 'shutdown':
+              if (!isOwner) return 
+              reply(`Bye...`)
+              await sleep(3000)
+              process.exit()
+              break
+          case 'leaveall':
+              if (!isOwner) return  
+              let totalgroup = nino.chats.array.filter(u => u.jid.endsWith('@g.us')).map(u => u.jid)
+              for (let id of totalgroup) {
+              sendMess(id, 'Byee', null)
+              await sleep(3000)
+              nino.groupLeave(id)
 }
-             break
-       case 'culik':
+              break
+          case 'culik':
               if (!isOwner) return
               if (args.length < 1) return reply('Masukin id grupnya tolol')
               let pantek = []
@@ -952,79 +944,79 @@ a += `
 }
               nino.groupAdd(args[0], pantek)
               break
-       case 'setprefix':
+          case 'setprefix':
               if (!isOwner) return
               teks = args.join('') 
               prefix = teks
               reply(`_Change Prefix Success!! Prefix_ : *${prefix}*`)
               break
-      case 'hidetag':
-             try {
-             quotedText = mek.message.extendedTextMessage.contextInfo.quotedMessage.conversation
-             hideTag(from, `${quotedText}`)
-             } catch {
-             hideTag(from, `${q}`)
+          case 'hidetag':
+              try {
+              quotedText = mek.message.extendedTextMessage.contextInfo.quotedMessage.conversation
+              hideTag(from, `${quotedText}`)
+              } catch {
+              hideTag(from, `${q}`)
 }
-             break
-       case 'wangy':
+              break
+          case 'wangy':
               if (!q) return
               qq = q.toUpperCase()
               awikwok = `${qq} ${qq} ${qq} ❤️ ❤️ ❤️ WANGY WANGY WANGY WANGY HU HA HU HA HU HA, aaaah baunya rambut ${qq} wangyy aku mau nyiumin aroma wangynya ${qq} AAAAAAAAH ~ Rambutnya.... aaah rambutnya juga pengen aku elus-elus ~~ AAAAAH ${qq} keluar pertama kali di anime juga manis ❤️ ❤️ ❤️ banget AAAAAAAAH ${qq} AAAAA LUCCUUUUUUUUUUUUUUU............ ${qq} AAAAAAAAAAAAAAAAAAAAGH ❤️ ❤️ ❤️apa ? ${qq} itu gak nyata ? Cuma HALU katamu ? nggak, ngak ngak ngak ngak NGAAAAAAAAK GUA GAK PERCAYA ITU DIA NYATA NGAAAAAAAAAAAAAAAAAK PEDULI BANGSAAAAAT !! GUA GAK PEDULI SAMA KENYATAAN POKOKNYA GAK PEDULI. ❤️ ❤️ ❤️ ${qq} gw ... ${qq} di laptop ngeliatin gw, ${qq} .. kamu percaya sama aku ? aaaaaaaaaaah syukur ${q} aku gak mau merelakan ${qq} aaaaaah ❤️ ❤️ ❤️ YEAAAAAAAAAAAH GUA MASIH PUNYA ${qq} SENDIRI PUN NGGAK SAMA AAAAAAAAAAAAAAH`
               reply(awikwok)
               break
 //------------------< Lainnya >-------------------
-        case 'getpp':
-               if (mek.message.extendedTextMessage === null || mek.message.extendedTextMessage === undefined) {
-               linkpp = await nino.getProfilePicture(from) || "https://telegra.ph/file/40151a65238ba2643152d.jpg"
-               buffer = await getBuffer(linkpp)
-               nino.sendMessage(from, buffer, image, {caption: "Nih", quoted: mek })
-               } else if (mek.message.extendedTextMessage.contextInfo.mentionedJid === null || mek.message.extendedTextMessage.contextInfo.mentionedJid === undefined) {
-               mberr = mek.message.extendedTextMessage.contextInfo.participant
-               linkpp = await nino.getProfilePicture(mberr) || "https://telegra.ph/file/40151a65238ba2643152d.jpg"
-               buffer = await getBuffer(linkpp)
-               nino.sendMessage(from, buffer, image, { quoted: mek, caption: `Profile Picture of @${mberr.split("@")[0]}`, contextInfo: { "mentionedJid": [mberr] }})
-               } else if (mek.message.extendedTextMessage.contextInfo.mentionedJid.length > 0) {
-               mberr = mek.message.extendedTextMessage.contextInfo.mentionedJid[0]
-               linkpp = await nino.getProfilePicture(mberr) || "https://telegra.ph/file/40151a65238ba2643152d.jpg"
-               buffer = await getBuffer(linkpp)
-               nino.sendMessage(from, buffer, image, { quoted: mek, caption: `Profile Picture of @${mberr.split("@")[0]}`, contextInfo: { "mentionedJid": [mberr] }})
+          case 'getpp':
+              if (mek.message.extendedTextMessage === null || mek.message.extendedTextMessage === undefined) {
+              linkpp = await nino.getProfilePicture(from) || "https://telegra.ph/file/40151a65238ba2643152d.jpg"
+              buffer = await getBuffer(linkpp)
+              nino.sendMessage(from, buffer, image, {caption: "Nih", quoted: mek })
+              } else if (mek.message.extendedTextMessage.contextInfo.mentionedJid === null || mek.message.extendedTextMessage.contextInfo.mentionedJid === undefined) {
+              mberr = mek.message.extendedTextMessage.contextInfo.participant
+              linkpp = await nino.getProfilePicture(mberr) || "https://telegra.ph/file/40151a65238ba2643152d.jpg"
+              buffer = await getBuffer(linkpp)
+              nino.sendMessage(from, buffer, image, { quoted: mek, caption: `Profile Picture of @${mberr.split("@")[0]}`, contextInfo: { "mentionedJid": [mberr] }})
+              } else if (mek.message.extendedTextMessage.contextInfo.mentionedJid.length > 0) {
+              mberr = mek.message.extendedTextMessage.contextInfo.mentionedJid[0]
+              linkpp = await nino.getProfilePicture(mberr) || "https://telegra.ph/file/40151a65238ba2643152d.jpg"
+              buffer = await getBuffer(linkpp)
+              nino.sendMessage(from, buffer, image, { quoted: mek, caption: `Profile Picture of @${mberr.split("@")[0]}`, contextInfo: { "mentionedJid": [mberr] }})
 }
-               break
-        case 'searchmsg':  //by ANU TEAM
-               if (args.length < 1) return reply(`Pesan Yang Mau Dicari Apaan?\nContoh : ${prefix + command} halo|10`)
-               teks = arg
-               if (teks.includes("|")) { 
-               try {
-               var ve = teks.split("|")[0]
-               var za = teks.split("|")[1]
-               sampai = `${za}`
-               if (isNaN(sampai)) return reply('Harus berupa Angka!')
-               batas = parseInt(sampai) + 1
-               if (batas > 30) return reply('Maks 30!')
-               reply(mess.wait)
-               cok = await nino.searchMessages(`${ve}`, from, batas,1) 
-               if (cok.messages.length < 2) return reply('Tidak Ditemukan Pesan') 
-               if (cok.messages.length < parseInt(batas)) reply(`Hanya Ditemukan ${cok.messages.length - 1} Pesan`)
-               for (i=1;i < cok.messages.length;i++) {
-               if (cok.messages[i].message) {
-               nino.sendMessage(from, `Ditemukan!`, text, {sendEphemeral: true, quoted: cok.messages[i]}) 
+              break
+          case 'searchmsg':  //by ANU TEAM
+              if (args.length < 1) return reply(`Pesan Yang Mau Dicari Apaan?\nContoh : ${prefix + command} halo|10`)
+              teks = arg
+              if (teks.includes("|")) { 
+              try {
+              var ve = teks.split("|")[0]
+              var za = teks.split("|")[1]
+              sampai = `${za}`
+              if (isNaN(sampai)) return reply('Harus berupa Angka!')
+              batas = parseInt(sampai) + 1
+              if (batas > 30) return reply('Maks 30!')
+              reply(mess.wait)
+              cok = await nino.searchMessages(`${ve}`, from, batas,1) 
+              if (cok.messages.length < 2) return reply('Tidak Ditemukan Pesan') 
+              if (cok.messages.length < parseInt(batas)) reply(`Hanya Ditemukan ${cok.messages.length - 1} Pesan`)
+              for (i=1;i < cok.messages.length;i++) {
+              if (cok.messages[i].message) {
+              nino.sendMessage(from, `Ditemukan!`, text, {sendEphemeral: true, quoted: cok.messages[i]}) 
 }
 }
-               } catch (e) {
-               return reply(String(e))
+              } catch (e) {
+              return reply(String(e))
 }
-               } else {
-               reply(`Format salah tod, ini contoh format yang benar : ${prefix + command} halo|10`)
+              } else {
+              reply(`Format salah tod, ini contoh format yang benar : ${prefix + command} halo|10`)
 }
-               break
-        case 'lolkey':
-        case 'cekapikey':
-               if (args.length < 1) return reply(`Ketik ${prefix}lolkey [Apikeynya]`) 
-               anu = await fetchJson(`https://lolhuman.herokuapp.com/api/checkapikey?apikey=${q}`)
-               teks = `*YOUR APIKEY*\n\n➸ Ussername= ${anu.result.username}\n➸ Request= ${anu.result.requests}\n➸ Today= ${anu.result.today}\n➸ Akun Type= ${anu.result.account_type}\n➸ Expired= ${anu.result.expired}\n➸ API = https://lolhuman.herokuapp.com`
-               nino.sendMessage(from, teks, text, {quoted: mek})
-               break
-       case 'welcome':
+              break
+          case 'lolkey':
+          case 'cekapikey':
+              if (args.length < 1) return reply(`Ketik ${prefix}lolkey [Apikeynya]`) 
+              anu = await fetchJson(`https://lolhuman.herokuapp.com/api/checkapikey?apikey=${q}`)
+              teks = `*YOUR APIKEY*\n\n➸ Ussername= ${anu.result.username}\n➸ Request= ${anu.result.requests}\n➸ Today= ${anu.result.today}\n➸ Akun Type= ${anu.result.account_type}\n➸ Expired= ${anu.result.expired}\n➸ API = https://lolhuman.herokuapp.com`
+              nino.sendMessage(from, teks, text, {quoted: mek})
+              break
+          case 'welcome':
               if (!isGroup) return reply(mess.only.group)
               if (args.length < 1) return reply(`${prefix}welcome enable`)
               if ((args[0]) === 'enable') {
@@ -1040,45 +1032,45 @@ a += `
               reply('Enable untuk mengaktifkan, disable untuk menonaktifkan')
 }
               break
-       case 'kickall': // Anti Banned:v
+          case 'kickall': // Anti Banned:v
               if (!isOwner) return
               for (let i of groupMembers) {
               await kickMember(from, [i.jid])
 }
               break
-        case 'kick':
-             if (!isGroup) return reply(mess.only.group)
-             kick(from, mentionUser)
-             break
-      case 'add':
-             if (mek.message.extendedTextMessage === null || mek.message.extendedTextMessage === undefined) {
-             entah = arg.split("|")[0]
-             entah = entah.replace(new RegExp("[()+-/ +/]", "gi"), "")
-             entah = `${entah}@s.whatsapp.net`
-             nino.groupAdd(from, [entah])
-             } else {
-             entah = mek.message.extendedTextMessage.contextInfo.participant
-             nino.groupAdd(from, [entah])
+          case 'kick':
+              if (!isGroup) return reply(mess.only.group)
+              kick(from, mentionUser)
+              break
+          case 'add':
+              if (mek.message.extendedTextMessage === null || mek.message.extendedTextMessage === undefined) {
+              entah = arg.split("|")[0]
+              entah = entah.replace(new RegExp("[()+-/ +/]", "gi"), "")
+              entah = `${entah}@s.whatsapp.net`
+              nino.groupAdd(from, [entah])
+              } else {
+              entah = mek.message.extendedTextMessage.contextInfo.participant
+              nino.groupAdd(from, [entah])
 }
-             break
-       case 'infoig':
+              break
+          case 'infoig':
               teks = `Jangan Lupa Follow Ig Owner Ya : https://www.instagram.com/nino.chan26/`
               nino.sendMessage(from, teks, text, { quoted : mek })
               break
-       case 'sourcecode': 
-       case 'sc': 
-       case 'src':
+          case 'sourcecode': 
+          case 'sc': 
+          case 'src':
               textImg(`Bot ini menggunakan sc : https://github.com/Nino-chan02/SelfBotz`)
               break
-       case 'jadibot':
+          case 'jadibot':
               if (!isOwner) return
               jadibot(reply,nino,from)
               break
-       case 'stopjadibot':
+          case 'stopjadibot':
               stopjadibot(reply)
               break
-       case 'listbot':
-       case 'listjadibot':
+          case 'listbot':
+          case 'listjadibot':
               let jamdibot = '「 *LIST JADIBOT* 」\n\n'
               for(let i of listjadibot) {
               jamdibot += `*Nomor* : ${i.jid.split('@')[0]}
@@ -1088,24 +1080,24 @@ a += `
 }
               reply(jamdibot)
               break
-        case 'get':
-        case 'fetch': //ambil dari nuru
-               if (!/^https?:\/\//.test(q)) return reply('Awali *URL* dengan http:// atau https://')
-               res = await fetch(q)
-               if (res.headers.get('content-length') > 100 * 1024 * 1024 * 1024) {
-               delete res
-               throw `Content-Length: ${res.headers.get('content-length')}`
+          case 'get':
+          case 'fetch': //ambil dari nuru
+              if (!/^https?:\/\//.test(q)) return reply('Awali *URL* dengan http:// atau https://')
+              res = await fetch(q)
+              if (res.headers.get('content-length') > 100 * 1024 * 1024 * 1024) {
+              delete res
+              throw `Content-Length: ${res.headers.get('content-length')}`
 }
-               if (!/text|json/.test(res.headers.get('content-type'))) return sendMediaURL(from, q)
-               txtx = await res.buffer()
-               try {
-               txtx = util.format(JSON.parse(txtx+''))
-               } catch (e) {
-               txtx = txtx + ''
-               } finally {
-               reply(txtx.slice(0, 65536) + '')
+              if (!/text|json/.test(res.headers.get('content-type'))) return sendMediaURL(from, q)
+              txtx = await res.buffer()
+              try {
+              txtx = util.format(JSON.parse(txtx+''))
+              } catch (e) {
+              txtx = txtx + ''
+              } finally {
+              reply(txtx.slice(0, 65536) + '')
 }
-               break
+              break
 default:
 if (budy.startsWith('=>')){
 if (!isOwner) return
