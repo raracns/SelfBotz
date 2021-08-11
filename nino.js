@@ -16,7 +16,8 @@ const {
 	processTime,
 	Browsers,
 } = require("@adiwajshing/baileys")
-const moment = require("moment-timezone")
+const moment = require("moment-timezone");
+moment.tz.setDefault("Asia/Jakarta").locale("id");
 const speed = require('performance-now')
 const { spawn, exec, execSync } = require("child_process")
 const ffmpeg = require('fluent-ffmpeg')
@@ -380,11 +381,10 @@ module.exports = nino = async (nino, mek) => {
                break      
         case 'menu':
         case 'help':
-               menu =`Yo @${sender.split('@')[0]} 👋\n\n
+               menu =`Yo @${sender.split('@')[0]} 👋\n
 *Tanggal:* ${tanggal}
 *Waktu:* ${waktu.charAt(0).toUpperCase() + waktu.slice(1)} || ${time}
 *Runtime Bot:* ${runtime(process.uptime())}
-
 
 *TOOLs*
 • ${prefix}attp
@@ -445,7 +445,7 @@ module.exports = nino = async (nino, mek) => {
 https://github.com/Nino-chan02/SelfBotz`
                buttons = [{buttonId:`${prefix}ping`,buttonText:{displayText:'PING'},type:1},{buttonId:`${prefix}owner`,buttonText:{displayText:'OWNER'},type:1}]
                buttonsMessage = { contentText: `${menu}`, footerText: 'Simple SelfBot • Made By Nino ☕',  buttons: buttons, headerType: 1, contextInfo: {mentionedJid: [sender], externalAdReply: { title: 'Nino Bot', body: 'Github', thumbnailUrl: 'https://telegra.ph/file/ad408bff29a90b6627e6f.jpg', sourceUrl: 'https://github.com/Nino-chan02/' }}}
-               prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{quoted: msg})
+               prep = await nino.prepareMessageFromContent(from,{buttonsMessage},{quoted: mek})
                nino.relayWAMessage(prep)
                break
 //------------------< Sticker Cmd >-------------------
