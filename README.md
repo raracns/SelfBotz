@@ -1,4 +1,4 @@
-SC nya jangan dijual
+# SC nya jangan dijual
 
 # Thanks To
 * [`Baileys`](https://github.com/adiwajshing/Baileys)
