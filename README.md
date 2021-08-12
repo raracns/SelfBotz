@@ -1,3 +1,5 @@
+SC nya jangan dijual
+
 # Thanks To
 * [`Baileys`](https://github.com/adiwajshing/Baileys)
 * [`Arip`](https://github.com/Akkun3704)
