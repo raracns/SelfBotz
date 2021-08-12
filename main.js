@@ -1,4 +1,4 @@
-const { WAConnection, MessageType, Mimetype, Presence, Browsers } = require('@adiwajshing/baileys')
+const { WAConnection, Browsers } = require('@adiwajshing/baileys')
 const { color, bgcolor } = require('./lib/color')
 const fs = require("fs-extra")
 const figlet = require('figlet')
@@ -11,7 +11,7 @@ charging = 'unknown'
 //nocache
 require('./nino.js')
 nocache('../nino.js', module => console.log(color('[WATCH]', 'cyan'), color(`'${module}'`, 'green'), 'File is updated!'))
-require('../message/group.js')
+require('./message/group.js')
 nocache('../message/group.js', module => console.log(color('[WATCH]', 'cyan'), color(`'${module}'`, 'green'), 'File is updated!'))
          
 const starts = async (nino = new WAConnection()) => {
