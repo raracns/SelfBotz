@@ -11,8 +11,8 @@ charging = 'unknown'
 //nocache
 require('./nino.js')
 nocache('../nino.js', module => console.log(color('[WATCH]', 'cyan'), color(`'${module}'`, 'green'), 'File is updated!'))
-require('./message/group.js')
-nocache('./message/group.js', module => console.log(color('[WATCH]', 'cyan'), color(`'${module}'`, 'green'), 'File is updated!'))
+require('../message/group.js')
+nocache('../message/group.js', module => console.log(color('[WATCH]', 'cyan'), color(`'${module}'`, 'green'), 'File is updated!'))
          
 const starts = async (nino = new WAConnection()) => {
         nino.logger.level = 'warn'
