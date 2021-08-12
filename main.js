@@ -21,23 +21,24 @@ const starts = async (nino = new WAConnection()) => {
         console.log(color('[NINO]', 'cyan'), color('Welcome back, Owner! Hope you are doing well~', 'green'))
         nino.browserDescription = ["NINO - BOT", "Firefox", "3.0.0"];
      
-        
-        nino.on('qr', () => {
+        // Menunggu QR
+          nino.on('qr', () => {
                console.log(color('[','white'), color('!','red'), color(']','white'), color('Please scan qr code'))
-   })
-        // menghubungkan
-        fs.existsSync(`./${setting.sessionName}.json`) && nino.loadAuthInfo(`./${setting.sessionName}.json`)
-        nino.on('connecting', () => {
+         })
+   
+        // Menghubungkan
+           fs.existsSync(`./${setting.sessionName}.json`) && nino.loadAuthInfo(`./${setting.sessionName}.json`)
+           nino.on('connecting', () => {
                 console.log(color('[ SYSTEM ]', 'yellow'), color(' ⏳ Connecting...'));
-   })
+          })
        
           //connect
-        nino.on('open', () => {
+            nino.on('open', () => {
                 console.log(color('[ SYSTEM ]', 'yellow'), color('Bot is now online!'));
-   })
+         })
    
          // session
-         await nino.connect({timeoutMs: 30*1000})
+            await nino.connect({timeoutMs: 30*1000})
                 fs.writeFileSync(`./${setting.sessionName}.json`, JSON.stringify(nino.base64EncodedAuthInfo(), null, '\t'))
         
          // Baterai
